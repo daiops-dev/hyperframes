@@ -121,7 +121,7 @@ hyperframes render -o preview.mp4
 hyperframes snapshot --at "1.0,3.0,5.0,7.0"
 
 # Publish to hyperframes.dev for review
-npx hyperframes publish
+hyperframes publish
 ```
 
 **Catalog preview image** — For the default PNG preview, save your snapshot at `docs/images/catalog/{kind}/{name}.png` in the repository checkout (`{kind}` is `blocks` or `components`). After upload, the catalog serves it from `https://static.heygen.ai/hyperframes-oss/docs/images/catalog/{kind}/{name}.png`. If `registry-item.json` declares `preview`, the card uses its `poster` URL; a `preview` without `poster` has no image fallback.
@@ -153,7 +153,7 @@ npx tsx scripts/generate-registry-items.ts
 npx tsx scripts/generate-catalog-pages.ts
 
 # 5. Publish to hyperframes.dev so reviewers can preview
-npx hyperframes publish
+hyperframes publish
 
 # 6. Stage everything
 git add registry/{kind}/{name}/ registry/registry.json docs/catalog/
@@ -175,6 +175,6 @@ gh pr create --title "feat(registry): {name}" --body "preview: {hyperframes.dev-
 - [ ] `npx oxfmt --check` passes
 - [ ] `registry/registry.json` updated with new entry
 - [ ] `scripts/generate-catalog-pages.ts` run (docs page generated)
-- [ ] `npx hyperframes publish` run (claim your project URL)
+- [ ] `hyperframes publish` run (claim your project URL)
 - [ ] Preview MP4 attached to PR (external) or catalog PNG uploaded (internal)
 - [ ] All IDs unique and prefixed

@@ -12,7 +12,7 @@ heygen auth login --oauth # OAuth = free subscription credits; --api-key bills A
 This unlocks the FREE path for bgm/sfx/image/icon catalog search, TTS (voice), and avatar videos. Sign in with `--oauth` — the free allowance rides on the OAuth session (an API key bills API credits instead). **media-use requires heygen >= v0.3.0 uniformly** (the OAuth free-usage path needs it), so `--doctor` nudges older CLIs to update even for API-key-only use. Before resolving anything, verify setup with:
 
 ```bash
-npx hyperframes media-use resolve --doctor
+hyperframes media-use resolve --doctor
 ```
 
 ## Host HeyGen access (no CLI sign-in)
@@ -81,7 +81,7 @@ private, on-device path instead of or ahead of HeyGen for that type. Only
 | `codex`            | image gen upsell (ChatGPT sub)                                                  | Codex CLI, logged in via ChatGPT (owns its own auth)                                                                                                                                        |
 | `parakeet-mlx`     | local transcription (default ASR, best) on Apple Silicon                        | `uv venv ~/.venvs/parakeet && VIRTUAL_ENV=~/.venvs/parakeet uv pip install parakeet-mlx`                                                                                                    |
 | `ltx-2-mlx`        | local video gen                                                                 | `git clone https://github.com/dgrauet/ltx-2-mlx && cd ltx-2-mlx && uv sync --all-extras`                                                                                                    |
-| `npx hyperframes`  | Kokoro TTS (voice), Parakeet or whisper.cpp (transcribe), remove-background     | via the hyperframes CLI; Parakeet on macOS, Windows and glibc 2.32+ Linux: `npx hyperframes models install parakeet`; whisper.cpp is built on first use (Homebrew on macOS, else git+cmake) |
+| `hyperframes`  | Kokoro TTS (voice), Parakeet or whisper.cpp (transcribe), remove-background     | via the hyperframes CLI; Parakeet on macOS, Windows and glibc 2.32+ Linux: `hyperframes models install parakeet`; whisper.cpp is built on first use (Homebrew on macOS, else git+cmake) |
 
 The RAM-graded local-model shortlist + exact per-tier install/invoke lives in
 `scripts/lib/local-models.mjs` (the agent can read `describeModelLadder(cap, specs)`

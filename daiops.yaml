@@ -1,0 +1,26 @@
+# DAIOps install manifest. DAIOps runs these steps, in order, in the workspace of every
+# employee hired from this talent. A step whose `check` already passes is skipped.
+# Versions must be pinned (DAIOps rejects @latest and unpinned global installs).
+schema: 1
+upstream:
+  repo: heygen-com/hyperframes
+  ref: v0.8.147
+install:
+  - id: system
+    # ffmpeg for encoding, the color emoji font, and the shared libraries headless Chrome needs (Debian bookworm).
+    run: >-
+      apt-get update &&
+      apt-get install -y --no-install-recommends ffmpeg fonts-noto-color-emoji
+      libnss3 libnspr4 libatk1.0-0 libatk-bridge2.0-0 libcups2 libdrm2 libxkbcommon0
+      libxcomposite1 libxdamage1 libxfixes3 libxrandr2 libgbm1 libasound2 libpango-1.0-0
+      libcairo2 libxshmfence1
+    check: command -v ffmpeg >/dev/null && fc-list | grep -qi "noto color emoji" && dpkg -s libnss3 libgbm1 libxshmfence1 >/dev/null 2>&1
+  - id: cli
+    run: npm i -g hyperframes@0.8.147
+    check: hyperframes --version | grep -qx "0.8.147"
+  - id: browser
+    # The CLI installs the Chrome build it was released with, so pinning the CLI pins Chrome.
+    run: hyperframes browser ensure
+    check: >-
+      hyperframes doctor --json 2>/dev/null | node -e
+      'const r=JSON.parse(require("fs").readFileSync(0,"utf8"));const c=(r.checks||[]).find(x=>x.name==="Chrome");process.exit(c&&c.ok?0:1)'

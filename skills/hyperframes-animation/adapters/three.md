@@ -14,7 +14,7 @@ HyperFrames supports Three.js through its `three` runtime adapter. The adapter d
 - Listen for the `hf-seek` event and render exactly that time.
 - Load models, textures, and HDRIs before render-critical seeking. Do not fetch them at seek time.
 - Avoid `requestAnimationFrame` or `renderer.setAnimationLoop` as the source of truth for render-critical motion.
-- **Always set `data-duration="<seconds>"` on the root `[data-composition-id]` element.** Unlike CSS/WAAPI/Lottie, the `three` adapter has no duration auto-inference — it only forwards time via `hf-seek`/`__hfThreeTime`, it doesn't inspect your scene for an `AnimationClip`/`AnimationMixer` length. Without `data-duration` (and no GSAP timeline), the render engine has no way to know how long to capture and fails with "Composition has zero duration". `npx hyperframes lint` errors on this (`root_composition_missing_duration_source`).
+- **Always set `data-duration="<seconds>"` on the root `[data-composition-id]` element.** Unlike CSS/WAAPI/Lottie, the `three` adapter has no duration auto-inference — it only forwards time via `hf-seek`/`__hfThreeTime`, it doesn't inspect your scene for an `AnimationClip`/`AnimationMixer` length. Without `data-duration` (and no GSAP timeline), the render engine has no way to know how long to capture and fails with "Composition has zero duration". `hyperframes lint` errors on this (`root_composition_missing_duration_source`).
 
 The adapter sets `window.__hfThreeTime` and dispatches `new CustomEvent("hf-seek", { detail: { time } })` on each seek.
 
@@ -139,7 +139,7 @@ function renderAt(t) {
 }
 ```
 
-Verify each cut on the last frame before it and the first frame after it, not only somewhere inside each shot. The last frame before a cut is `(Math.ceil(cut * fps) - 1) / fps`: for a cut at 23 s in a 30 fps render, `npx hyperframes snapshot --at 22.9667,23 --no-end`.
+Verify each cut on the last frame before it and the first frame after it, not only somewhere inside each shot. The last frame before a cut is `(Math.ceil(cut * fps) - 1) / fps`: for a cut at 23 s in a 30 fps render, `hyperframes snapshot --at 22.9667,23 --no-end`.
 
 ## Lighting Lit Meshes
 
@@ -164,8 +164,8 @@ A `MeshStandardMaterial` lit by one `PointLight` or `DirectionalLight`, with no 
 After editing a Three.js composition:
 
 ```bash
-npx hyperframes lint
-npx hyperframes check
+hyperframes lint
+hyperframes check
 ```
 
 ## Credits And References

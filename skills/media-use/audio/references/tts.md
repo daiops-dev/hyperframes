@@ -1,10 +1,10 @@
 # Text To Speech
 
-`npx hyperframes tts` synthesizes locally with Kokoro. It does not accept a
+`hyperframes tts` synthesizes locally with Kokoro. It does not accept a
 `--provider` or `--words` flag. For HeyGen audio plus word timestamps, use the
 bundled `heygen-tts.mjs` script below.
 
-> **Run the Preflight first — no credential is not a green light to silently use the local voice.** Before generating a voiceover, complete the sign-in **Preflight** (see `../../SKILL.md` → Preflight): run `npx hyperframes auth status`, recommend signing in, and **STOP for the user's choice** (sign in for HeyGen voices, or continue offline with local Kokoro). This applies to a one-off "generate a voiceover" request just as much as inside a full workflow.
+> **Run the Preflight first — no credential is not a green light to silently use the local voice.** Before generating a voiceover, complete the sign-in **Preflight** (see `../../SKILL.md` → Preflight): run `hyperframes auth status`, recommend signing in, and **STOP for the user's choice** (sign in for HeyGen voices, or continue offline with local Kokoro). This applies to a one-off "generate a voiceover" request just as much as inside a full workflow.
 
 ## Narrating a HyperFrames docs video
 
@@ -48,7 +48,7 @@ to HeyGen sign-in. Read the Gemini section for its credential requirement.
 
 ```bash
 # Local Kokoro CLI
-npx hyperframes tts "Welcome to HyperFrames" -o narration.wav
+hyperframes tts "Welcome to HyperFrames" -o narration.wav
 ```
 
 ## Self-contained HeyGen (no CLI) — `scripts/heygen-tts.mjs`
@@ -67,10 +67,10 @@ walks up ≤5 dirs) → `~/.heygen/credentials` (shared with heygen-cli;
 `X-HeyGen-Source: cli`. OAuth CLI users can consume the web-plan free allowance
 (10 min/month) before paid usage; API keys follow normal API billing. If the
 only credential is an expired OAuth token it stops with a hint to run
-`npx hyperframes auth refresh`.
+`hyperframes auth refresh`.
 
 ```bash
-# Only needed if you haven't run `npx hyperframes auth login`:
+# Only needed if you haven't run `hyperframes auth login`:
 export HEYGEN_API_KEY=...   # or put it in a project .env
 
 # Synthesize + capture word timestamps in one call (skips a Whisper pass)
@@ -205,7 +205,7 @@ Default `af_heart`. Curated picks:
 | Documentation     | `bf_emma`, `bm_george` |
 | Casual / social   | `af_heart`, `af_sky`   |
 
-Run `npx hyperframes tts --list` for the bundled set.
+Run `hyperframes tts --list` for the bundled set.
 
 ## Multilingual (Kokoro voice prefix → language)
 
@@ -224,8 +224,8 @@ The first letter of a Kokoro voice ID picks the phonemizer language; `--lang` ov
 | `z`    | Mandarin             |
 
 ```bash
-npx hyperframes tts "La reunión empieza a las nueve" --voice ef_dora
-npx hyperframes tts "Today is a nice day" --voice af_heart
+hyperframes tts "La reunión empieza a las nueve" --voice ef_dora
+hyperframes tts "Today is a nice day" --voice af_heart
 ```
 
 Valid `--lang` codes (only needed to override the voice's auto-detected language): `en-us`, `en-gb`, `es`, `fr-fr`, `hi`, `it`, `pt-br`, `ja`, `zh`.
@@ -257,4 +257,4 @@ When `--words <path>` is passed to a HeyGen call, the file is written in the sam
 ]
 ```
 
-For ElevenLabs / Kokoro, run `npx hyperframes transcribe narration.wav --model small.en` to get the same shape.
+For ElevenLabs / Kokoro, run `hyperframes transcribe narration.wav --model small.en` to get the same shape.

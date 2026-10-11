@@ -3,6 +3,14 @@ name: hyperframes-core
 description: The HyperFrames composition contract — build one renderable project. Use for composition structure, the `data-*` timing attributes, `class="clip"`, tracks, sub-compositions, variables, framework-owned media playback, deterministic-render rules, and validation. Read before writing composition HTML.
 ---
 
+<!-- daiops:begin -->
+> **Running inside a DAIOps workspace** (added by DAIOps, see CHANGES.md)
+> - The `hyperframes` CLI is already installed at a pinned version. Call it directly as `hyperframes …`, not through npx.
+> - Do not run `hyperframes upgrade`, `hyperframes skills update`, or `hyperframes auth`. Versions are pinned and there is no HeyGen sign-in here.
+> - Do not start a preview server or suggest the desktop app. Nobody can open a local URL from a chat. Render a draft (`hyperframes render -q draft`) and attach the mp4 to your reply.
+> - Do not put emoji in on-screen text.
+<!-- daiops:end -->
+
 **Plugin installs:** Before setup or freshness commands, follow [plugin execution rules](../hyperframes/references/plugin-installation.md) when this skill is inside a HyperFrames plugin. Standalone installs keep the update instructions below.
 
 # HyperFrames Core
@@ -25,7 +33,7 @@ This skill is the **technical contract** — how to build one hyperframes projec
 | `references/minimal-composition.md`     | start from the smallest renderable composition skeleton                                                                                                             |
 | `references/composition-patterns.md`    | choose monolithic vs modular; structure a modular `index.html`; pick a sub-comp archetype                                                                           |
 | `references/data-attributes.md`         | look up any `data-*` (root / clip / sub-comp host / legacy aliases); use `class="clip"`                                                                             |
-| `references/tracks-and-clips.md`        | understand what `data-track-index` does (and does not) control, z-index, time a clip relative to another; list every track and clip with `npx hyperframes timeline` |
+| `references/tracks-and-clips.md`        | understand what `data-track-index` does (and does not) control, z-index, time a clip relative to another; list every track and clip with `hyperframes timeline` |
 | `references/creator-editing-recipes.md` | copy truthful cut/trim/reorder/retime/freeze/camera/mask/crossfade/audio editing recipes and their limits                                                           |
 | `references/sub-compositions.md`        | wire a sub-composition (host attrs, `<template>`, per-instance vars) and animate inside it                                                                          |
 | `references/variables-and-media.md`     | declare variables; place `<video>`/`<audio>`, set volume, trim                                                                                                      |
@@ -83,7 +91,7 @@ Surfaced here; full rationale in the linked reference. Do not violate:
 ## Editing existing compositions
 
 - Read the files first. Preserve unrelated timing, tracks, IDs, variables, media paths.
-- To know what is on a project's timeline (tracks, clips, starts, ends, what plays), run `npx hyperframes timeline [--json]` instead of reading `index.html` and every sub-composition file.
+- To know what is on a project's timeline (tracks, clips, starts, ends, what plays), run `hyperframes timeline [--json]` instead of reading `index.html` and every sub-composition file.
 - Match existing composition IDs and timeline keys.
 - Adding a clip: set its `data-start`/`data-duration` intentionally against the clips around it. `data-track-index` is a Studio display lane, not a timing constraint, so it does not need to be free.
 - A clip that ends past the root `data-duration` is cut off: extend the root `data-duration` to the clip's end in the same edit (`lint` warns `clip_ends_past_root_duration`).
@@ -94,7 +102,7 @@ Surfaced here; full rationale in the linked reference. Do not violate:
 
 Use `hyperframes-cli` for command details
 
-- [ ] `npx hyperframes check` passes (0 findings across lint, runtime, layout, motion, and contrast)
-- [ ] Projects with sub-compositions: `npx hyperframes snapshot --at <midpoints>` and eyeball each frame
-- [ ] `npx hyperframes preview --background` for review (the user can edit anything in Studio's timeline, and the server survives the invoking command)
-- [ ] `npx hyperframes render` only after the user approves
+- [ ] `hyperframes check` passes (0 findings across lint, runtime, layout, motion, and contrast)
+- [ ] Projects with sub-compositions: `hyperframes snapshot --at <midpoints>` and eyeball each frame
+- [ ] `hyperframes preview --background` for review (the user can edit anything in Studio's timeline, and the server survives the invoking command)
+- [ ] `hyperframes render` only after the user approves

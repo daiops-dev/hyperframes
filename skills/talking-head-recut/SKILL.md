@@ -3,9 +3,16 @@ name: talking-head-recut
 description: Package an existing talking-head / interview / podcast video with timed, designed GRAPHIC OVERLAY cards — kinetic titles, lower-thirds, data callouts, quotes, side panels, picture-in-picture — synced to the transcript, on a 16:9 / 9:16 / 4:5 canvas of your choice; the clip plays untouched underneath. Trigger on "graphic overlays", "on-screen graphics", "package / dress up my video". Not plain subtitles (/embedded-captions). Unclear → /hyperframes.
 ---
 
+<!-- daiops:begin -->
+> **Running inside a DAIOps workspace** (added by DAIOps, see CHANGES.md)
+> - The `hyperframes` CLI is already installed at a pinned version. Call it directly as `hyperframes …`, not through npx.
+> - Do not run `hyperframes upgrade`, `hyperframes skills update`, or `hyperframes auth`. Versions are pinned and there is no HeyGen sign-in here.
+> - Do not start a preview server or suggest the desktop app. Nobody can open a local URL from a chat. Render a draft (`hyperframes render -q draft`) and attach the mp4 to your reply.
+> - Do not put emoji in on-screen text.
+<!-- daiops:end -->
+
 **Plugin installs:** Before setup or freshness commands, follow [plugin execution rules](../hyperframes/references/plugin-installation.md) when this skill is inside a HyperFrames plugin. Standalone installs keep the update instructions below.
 
-> **First, keep this skill fresh — confirm with the user before running:** `npx hyperframes skills update talking-head-recut`. A fast no-op when everything is current; otherwise it refreshes this skill plus the core domain skills it depends on before you rely on them.
 
 # Talking Head Recut
 
@@ -40,7 +47,7 @@ Inspectable intermediate files in the work directory:
 
 ```bash
 # hyperframes — transcription (local Whisper) + rendering the assembled HTML to MP4
-npx hyperframes --help
+hyperframes --help
 ```
 
 This skill runs entirely on the **hyperframes** CLI plus system `ffmpeg` / `ffprobe`.
@@ -52,7 +59,7 @@ service, API key, or rate-limited proxy.
 ### 1. Check Environment
 
 ```bash
-npx hyperframes doctor          # ffmpeg, headless browser, render deps
+hyperframes doctor          # ffmpeg, headless browser, render deps
 # confirm bundled assets:
 ls "<SKILL_DIR>/assets/fonts" "<SKILL_DIR>/assets/vendor/gsap.min.js"
 ```
@@ -99,7 +106,7 @@ fraction evaluated, e.g. `30000/1001 → 29.97`) + `audio.mp3`.
 ### 4. Transcribe
 
 ```bash
-npx hyperframes transcribe "$WORK_DIR/audio.mp3" -d "$WORK_DIR" --json --model small.en
+hyperframes transcribe "$WORK_DIR/audio.mp3" -d "$WORK_DIR" --json --model small.en
 ```
 
 Local **Whisper** — no API key, no proxy, no rate limit. Writes a word-level
@@ -756,7 +763,7 @@ table column that matches the storyboard's `layout` field.
 This list is closed, and deliberately so: a card is an HTML fragment whose motion this
 skill compiles into the shared overlay timeline in Step 9 (see the GSAP mapping table
 there). That is why this workflow does not search the HyperFrames component registry the
-way the composition workflows do — `npx hyperframes catalog` returns standalone
+way the composition workflows do — `hyperframes catalog` returns standalone
 compositions that carry their own timeline, and a card has no place to mount one. Reach a
 look the kinds below cannot express with plain CSS inside the card's scoped `<style>`.
 
@@ -1162,7 +1169,7 @@ decides where the actual visible card sits.
 
 ```bash
 cd "$WORK_DIR"
-PRODUCER_BROWSER_GPU_MODE=hardware npx hyperframes render public \
+PRODUCER_BROWSER_GPU_MODE=hardware hyperframes render public \
   --skill=talking-head-recut \
   -o output.mp4 \
   --fps 30
@@ -1179,7 +1186,7 @@ For a sanity check before the full render, capture a single frame at a
 specific timestamp:
 
 ```bash
-npx hyperframes snapshot public --at 5    # → public/snapshots/frame-00-at-5s.png (a single --at ignores --out)
+hyperframes snapshot public --at 5    # → public/snapshots/frame-00-at-5s.png (a single --at ignores --out)
 ```
 
 ### 11. Report Results
@@ -1198,7 +1205,7 @@ Tell the user:
 **Optional live preview (on request only).** The clip plays unchanged inside `public/index.html` with the overlays on top, so it previews faithfully. **Don't open it during the run.** When the user asks, start a long-lived server **after** render and report the URL:
 
 ```bash
-(cd "$WORK_DIR/public" && npx hyperframes preview --background)   # or `npx hyperframes play` for a shareable link
+(cd "$WORK_DIR/public" && hyperframes preview --background)   # or `hyperframes play` for a shareable link
 ```
 
 Do not delete the work directory unless the user asks.

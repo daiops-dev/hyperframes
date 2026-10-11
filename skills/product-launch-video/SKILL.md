@@ -3,9 +3,16 @@ name: product-launch-video
 description: "Turn a product or marketing URL, pasted script, or brief into a product launch / promo video — SaaS promos, feature reveals, product demos, app and company launches. Use when the user wants to market, launch, promote, or reveal a product; the default for any commercial URL. Site tours / showcases of a website route here too — the brief carries the show-it-as-is intent. Unclear → /hyperframes."
 ---
 
+<!-- daiops:begin -->
+> **Running inside a DAIOps workspace** (added by DAIOps, see CHANGES.md)
+> - The `hyperframes` CLI is already installed at a pinned version. Call it directly as `hyperframes …`, not through npx.
+> - Do not run `hyperframes upgrade`, `hyperframes skills update`, or `hyperframes auth`. Versions are pinned and there is no HeyGen sign-in here.
+> - Do not start a preview server or suggest the desktop app. Nobody can open a local URL from a chat. Render a draft (`hyperframes render -q draft`) and attach the mp4 to your reply.
+> - Do not put emoji in on-screen text.
+<!-- daiops:end -->
+
 **Plugin installs:** Before setup or freshness commands, follow [plugin execution rules](../hyperframes/references/plugin-installation.md) when this skill is inside a HyperFrames plugin. Standalone installs keep the update instructions below.
 
-> **First, keep this skill fresh — confirm with the user before running:** `npx hyperframes skills update product-launch-video`. A fast no-op when everything is current; otherwise it refreshes this skill plus the core domain skills it depends on before you rely on them.
 
 > **media-use**: Before sourcing audio/images/logos, call `/media-use` to resolve BGM/SFX/images from the HeyGen catalog and brand logos from their official sources. Run `--adopt` first to register existing assets. See `/media-use` skill. When the host app provides its own music or sound-effect tools, use those for music and sound effects.
 
@@ -31,13 +38,13 @@ Goal: Enter with a confirmed brief, create the HyperFrames project, and make the
 
 Initialize only if `hyperframes.json` is missing. Name `<project>` from the brand or domain in kebab-case, such as `acme-promo`; never use workspace name or timestamp.
 
-`npx hyperframes init "videos/<project>" --non-interactive --example=blank --skill=product-launch-video` — `init` checks the installed skills against the latest on GitHub and updates the global set if any are out of date.
+`hyperframes init "videos/<project>" --non-interactive --example=blank --skill=product-launch-video` — `init` checks the installed skills against the latest on GitHub and updates the global set if any are out of date.
 
 After init, let `<PROJECT_ROOT>` be `videos/<project>` and run every subsequent relative-path command with that directory as its working directory. In the commands below, `.` means `<PROJECT_ROOT>`; never write `.media`, `capture`, or output files in the caller directory.
 
 **Write `BRIEF.md` immediately after init** (never before — `init` refuses a non-empty directory): the intent layer's locked brief, shape per `../hyperframes/references/brief-format.md`. Resolve `<MEDIA_DIR>` as the installed `/media-use` skill directory. Then record each preference-backed answer with `node <MEDIA_DIR>/scripts/prefs.mjs record --hyperframes .` (`brief-format.md` names the subset). If the intent layer adopted a recipe, run `node <MEDIA_DIR>/scripts/recipe.mjs use --hyperframes . --name <name>`; it copies its `frame.md` into the project (Step 2 is then skipped) and returns the skeletons Step 3 drafts from. A recipe fills answers, not approvals; the review gates still run.
 
-**Show sign-in status before proceeding past Setup** — run `npx hyperframes auth status` and relay its output verbatim. It reports whether voice/BGM will use HeyGen or local engines and, when signed out, how to sign in. Note the exit code contract: `auth status` **exits 1 when not signed in** (and when the stored credential is rejected) — that non-zero exit is the normal signed-out state, not a command failure, so don't treat it as an error, don't retry it, and don't chain it with `&&`/`set -e` in a way that would abort the workflow. Apply one branch:
+**Show sign-in status before proceeding past Setup** — run `hyperframes auth status` and relay its output verbatim. It reports whether voice/BGM will use HeyGen or local engines and, when signed out, how to sign in. Note the exit code contract: `auth status` **exits 1 when not signed in** (and when the stored credential is rejected) — that non-zero exit is the normal signed-out state, not a command failure, so don't treat it as an error, don't retry it, and don't chain it with `&&`/`set -e` in a way that would abort the workflow. Apply one branch:
 
 - **Collaborative:** wait for the user to sign in or explicitly choose `offline` / `go`.
 - **Autonomous:** state the status and continue through the available local engines.
@@ -54,7 +61,7 @@ Goal: Collect the source material, brand signals, and usable assets for the vide
 
 Classify the input and choose the path. Explicit URL -> capture it and use the site for narration and assets. Pasted script/brief -> save verbatim as `user_script.txt`; `VO_MODE` (verbatim or restructured) comes from `BRIEF.md` — the intent layer asks it when a script arrives (ask once here only if the brief somehow lacks it). Then resolve capture target: URL in text -> use it; brand name only -> `WebSearch`, confirm URL in one line, then crawl; no URL/site (or the brief says don't scrape) -> no-capture path.
 
-Run capture with: `npx hyperframes capture "<URL>" -o ./capture --json`. Keep the default
+Run capture with: `hyperframes capture "<URL>" -o ./capture --json`. Keep the default
 post-navigation budget unless the caller owns a smaller deadline; then pass a positive
 `--capture-budget <milliseconds>` that leaves time for downstream work. `--timeout` controls page
 navigation only. Use `--skip-vision` only when optional image captioning is intentionally disabled.
@@ -148,7 +155,7 @@ Edit `STORYBOARD.md` in place. Do not create another storyboard. Use `frame.md` 
 
 Read `references/visual-design.md`, `../hyperframes-animation/blueprints-index.md`, `references/motion-language.md`, and `../hyperframes-animation/rules-index.md`. Use `visual-design.md` for the method (the time-coded shot sequence, the inline Layout vocabulary, and the required `## Video direction` block). Use `../hyperframes-animation/blueprints-index.md` to pick each frame's shot shape. Use `motion-language.md` (the motion vocabulary + the motion doctrine) and `../hyperframes-animation/rules-index.md` (valid rule names) for motion — do not invent motion names.
 
-**Search the live catalog before you design any named look.** For every look, effect, treatment or transition the brief names — "CRT scanlines", "glitch", "film grain", "shimmer sweep", "confetti burst" — run `npx hyperframes catalog --query "<the look, in plain English>" --json` and read the top results BEFORE you write that look into `STORYBOARD.md`. The search needs **nothing installed**: no project, no prior `add`, no account. It ranks the whole hosted registry (~400 blocks and components) from any directory. A block that already does the job becomes the frame's `focal` — name it here; Step 5 pre-installs it once before dispatch, and its worker customizes it instead of rebuilding it. Hand-author a look only after a search for it came back with nothing that fits.
+**Search the live catalog before you design any named look.** For every look, effect, treatment or transition the brief names — "CRT scanlines", "glitch", "film grain", "shimmer sweep", "confetti burst" — run `hyperframes catalog --query "<the look, in plain English>" --json` and read the top results BEFORE you write that look into `STORYBOARD.md`. The search needs **nothing installed**: no project, no prior `add`, no account. It ranks the whole hosted registry (~400 blocks and components) from any directory. A block that already does the job becomes the frame's `focal` — name it here; Step 5 pre-installs it once before dispatch, and its worker customizes it instead of rebuilding it. Hand-author a look only after a search for it came back with nothing that fits.
 
 For every visual frame, write a **time-coded shot sequence** into `STORYBOARD.md` per `visual-design.md`'s method: pick the frame's blueprint (or compose), instantiate it with THIS product's content, and pace each Scene's reveal to the voiceover so the frame develops across its full duration instead of front-loading then freezing. State layout and motion **inline** per Scene (vocabularies in `visual-design.md` and `motion-language.md`). Add one video-wide `## Video direction` block.
 
@@ -180,7 +187,7 @@ Check the music against the final cut before assembly. A library track can match
 
 **Pre-install the registry blocks** named across `STORYBOARD.md` once, before dispatch, so parallel workers don't race on the registry:
 
-`for b in <each registry block named in the storyboard>; do npx hyperframes add "$b"; done`
+`for b in <each registry block named in the storyboard>; do hyperframes add "$b"; done`
 
 Before dispatch, read `../hyperframes/references/subagent-dispatch.md`. Build the per-frame packets and the worker role payload:
 
@@ -216,11 +223,11 @@ Inject transitions, run checks, pause for review, then render.
 
 `node <SKILL_DIR>/scripts/transitions.mjs verify --storyboard ./STORYBOARD.md --index ./index.html`
 
-`npx hyperframes lint`
+`hyperframes lint`
 
-`npx hyperframes check`
+`hyperframes check`
 
-`npx hyperframes snapshot --at <frame-midpoints-and-each-cut-minus-0.1s-and-plus-0.2s>`
+`hyperframes snapshot --at <frame-midpoints-and-each-cut-minus-0.1s-and-plus-0.2s>`
 
 `snapshot` stitches the captured frames into one contact sheet (`snapshots/contact-sheet.jpg`). Inspect the midpoint frames for layout failures, then compare the two images around every cut. A continuing element must keep the promised position, scale, opacity, and direction; fix any visible pop before rendering.
 
@@ -228,11 +235,11 @@ If a command fails, surface stderr and stop — don't pile on recovery commands.
 
 After checks pass, pause for user review — the review loop's final look (`../hyperframes/references/review-loop.md` § 4): one question, on the final Studio preview — render now, or what changes? (Autonomous: the same, as the one kept question — open the preview even though the user didn't ask for one.) Then deliver the MP4 with the contact sheet and the frame ids so revisions can target a single frame.
 
-Preview: `npx hyperframes preview --background`
+Preview: `hyperframes preview --background`
 
 Render only after user approval (autonomous mode: after the render-or-changes question):
 
-`npx hyperframes render --skill=product-launch-video --quality high --output renders/video.mp4`
+`hyperframes render --skill=product-launch-video --quality high --output renders/video.mp4`
 
 Do not rerun `lint`, `check`, or `snapshot` after rendering unless the user asks.
 

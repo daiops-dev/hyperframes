@@ -13,6 +13,14 @@ description: >
   `/hyperframes-core`.
 ---
 
+<!-- daiops:begin -->
+> **Running inside a DAIOps workspace** (added by DAIOps, see CHANGES.md)
+> - The `hyperframes` CLI is already installed at a pinned version. Call it directly as `hyperframes …`, not through npx.
+> - Do not run `hyperframes upgrade`, `hyperframes skills update`, or `hyperframes auth`. Versions are pinned and there is no HeyGen sign-in here.
+> - Do not start a preview server or suggest the desktop app. Nobody can open a local URL from a chat. Render a draft (`hyperframes render -q draft`) and attach the mp4 to your reply.
+> - Do not put emoji in on-screen text.
+<!-- daiops:end -->
+
 **Plugin installs:** Before setup or freshness commands, follow [plugin execution rules](../hyperframes/references/plugin-installation.md) when this skill is inside a HyperFrames plugin. Standalone installs keep the update instructions below.
 
 # HyperFrames Audio
@@ -371,7 +379,7 @@ under any voice track (narration, avatar speech, interview, voiceover) gets a
 carve as part of finishing the mix, not as a polish step to get to if there is
 time. Place both tracks, run the command below (default strength `0.8`; add
 `--bed` / `--voice` when detection picks wrong), confirm the written
-`data-fx-carve`, `data-fx-chain` and `data-automation` with `npx hyperframes check`,
+`data-fx-carve`, `data-fx-chain` and `data-automation` with `hyperframes check`,
 and only then render. A volume duck on its own is not a finished mix: it leaves
 the voice and the bed fighting in the 1–3 kHz band and costs the bed all of its
 presence for the whole voiceover. Skip the carve only when there is no voice for

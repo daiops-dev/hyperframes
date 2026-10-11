@@ -9,6 +9,14 @@ description: >
   general video planning.
 ---
 
+<!-- daiops:begin -->
+> **Running inside a DAIOps workspace** (added by DAIOps, see CHANGES.md)
+> - The `hyperframes` CLI is already installed at a pinned version. Call it directly as `hyperframes …`, not through npx.
+> - Do not run `hyperframes upgrade`, `hyperframes skills update`, or `hyperframes auth`. Versions are pinned and there is no HeyGen sign-in here.
+> - Do not start a preview server or suggest the desktop app. Nobody can open a local URL from a chat. Render a draft (`hyperframes render -q draft`) and attach the mp4 to your reply.
+> - Do not put emoji in on-screen text.
+<!-- daiops:end -->
+
 **Plugin installs:** Before setup or freshness commands, follow [plugin execution rules](../hyperframes/references/plugin-installation.md) when this skill is inside a HyperFrames plugin. Standalone installs keep the update instructions below.
 
 # HyperFrames Keyframes
@@ -211,14 +219,14 @@ Keyframe camera position, camera target, object transform, material opacity, sha
 ## CLI Proof
 
 ```bash
-npx hyperframes check
-npx hyperframes keyframes .
-npx hyperframes keyframes . --json
-npx hyperframes keyframes . --runtime all
-npx hyperframes keyframes . --selector "<selector>" --shot "<file>" --samples <n>
-npx hyperframes keyframes . --selector "<selector>" --shot "<file>" --layout strip --from <t0> --to <t1>
-npx hyperframes keyframes . --shot "<file>" --ghost --angle <angle>
-npx hyperframes snapshot . --at <times>
+hyperframes check
+hyperframes keyframes .
+hyperframes keyframes . --json
+hyperframes keyframes . --runtime all
+hyperframes keyframes . --selector "<selector>" --shot "<file>" --samples <n>
+hyperframes keyframes . --selector "<selector>" --shot "<file>" --layout strip --from <t0> --to <t1>
+hyperframes keyframes . --shot "<file>" --ghost --angle <angle>
+hyperframes snapshot . --at <times>
 ```
 
 Choose `<selector>` for the real animated subject. Choose `<times>` for first frame, proof poses, final-minus-hold, and exact final. Choose `<angle>` only when depth must be proven.

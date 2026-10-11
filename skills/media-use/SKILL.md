@@ -3,6 +3,14 @@ name: media-use
 description: Agent Media OS for a HyperFrames project. Resolve BGM, SFX, image, icon, brand logo, voice, color grade, or LUT into a frozen local file or paste-ready block + ledger record (one verb, `resolve`); generate via TTS / music / image models when the catalog misses; produce voiceover, transcription, captions, and background removal through one shared audio engine; operate on media (cut / reframe / transform); and reuse assets across projects. Also use for vague feedback that real footage looks dark, flat, boring, should feel retro/camcorder/print/ASCII, needs privacy, or needs a media reveal. When the host app provides its own music or sound-effect tools, use those for music and sound effects; `resolve --type bgm|sfx` needs the heygen CLI. When `HEYGEN_API_BASE` is set, HeyGen calls go through that host with no CLI sign-in.
 ---
 
+<!-- daiops:begin -->
+> **Running inside a DAIOps workspace** (added by DAIOps, see CHANGES.md)
+> - The `hyperframes` CLI is already installed at a pinned version. Call it directly as `hyperframes …`, not through npx.
+> - Do not run `hyperframes upgrade`, `hyperframes skills update`, or `hyperframes auth`. Versions are pinned and there is no HeyGen sign-in here.
+> - Do not start a preview server or suggest the desktop app. Nobody can open a local URL from a chat. Render a draft (`hyperframes render -q draft`) and attach the mp4 to your reply.
+> - Do not put emoji in on-screen text.
+<!-- daiops:end -->
+
 **Plugin installs:** Before setup or freshness commands, follow [plugin execution rules](../hyperframes/references/plugin-installation.md) when this skill is inside a HyperFrames plugin. Standalone installs keep the update instructions below.
 
 # media-use
@@ -11,7 +19,7 @@ The media OS for HyperFrames: resolve · generate · operate · remember — eve
 
 Only when `HEYGEN_API_BASE` is set in your environment (a host app set it and pays for HeyGen with its own key): HeyGen media is already paid for. Do not ask the person to install or sign in to the `heygen` CLI and do not offer its OAuth allowance; catalog search, TTS and avatar calls here go through the host. When that same host also gives you its own HeyGen tools, use those first. When a call through the host is refused, tell the person the host's message as written (it names the fix, such as adding or replacing the key in the app's Settings) and stop; do not switch to another provider unless they ask.
 
-First run otherwise (no `HEYGEN_API_BASE`), when you will use HeyGen media (catalog search, TTS, avatar video): install and sign in to the `heygen` CLI (the free-usage path), then verify with `npx hyperframes media-use resolve --doctor`. Setup and providers: `references/setup-providers.md`.
+First run otherwise (no `HEYGEN_API_BASE`), when you will use HeyGen media (catalog search, TTS, avatar video): install and sign in to the `heygen` CLI (the free-usage path), then verify with `hyperframes media-use resolve --doctor`. Setup and providers: `references/setup-providers.md`.
 
 Music and sound effects inside a host app: when the app you run in gives you its own music or sound-effect tools, use those. Without `HEYGEN_API_BASE`, `resolve --type bgm` and `--type sfx` search the HeyGen catalog through the `heygen` CLI; without it they fail and say so (`sfx` still answers from its bundled library).
 
@@ -20,7 +28,7 @@ Without `HEYGEN_API_BASE`, before generating a voiceover or an avatar video, tel
 ## Resolve — the one verb
 
 ```bash
-npx hyperframes media-use resolve --type <type> --intent "<description>" --project <dir>
+hyperframes media-use resolve --type <type> --intent "<description>" --project <dir>
 ```
 
 Returns one line: `resolved <id> → <path> (<type>, <metadata>)`. All search noise stays on disk.
