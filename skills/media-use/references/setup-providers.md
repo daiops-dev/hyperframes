@@ -6,13 +6,13 @@ Install the HeyGen CLI through its [verified release instructions](https://devel
 
 ```bash
 heygen update                  # requires v0.3.0+
-npx hyperframes auth login     # dedicated HyperFrames OAuth session
+hyperframes auth login     # dedicated HyperFrames OAuth session
 ```
 
 HyperFrames owns the OAuth session in `~/.hyperframes/credentials` and supplies an access-only temporary credential to the HeyGen helper. Signing into `heygen` separately does not configure this path. The server decides subscription eligibility, free allowances and charges; an explicit API key uses API billing. **media-use requires heygen >= v0.3.0 uniformly.** Verify setup with:
 
 ```bash
-npx hyperframes media-use resolve --doctor
+hyperframes media-use resolve --doctor
 ```
 
 ## Host HeyGen access (no CLI sign-in)
@@ -76,12 +76,12 @@ private, on-device path instead of or ahead of HeyGen for that type. Only
 | Tool               | Serves                                                                                     | Install                                                                                                                                                                                                                                                         |
 | ------------------ | ------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `ffmpeg`/`ffprobe` | adopt probing, smart-grade signalstats, cut, duck bake, loudnorm                           | system package (`brew install ffmpeg`)                                                                                                                                                                                                                          |
-| `heygen`           | catalog (bgm/image/icon) + TTS (voice) + avatar video — the HyperFrames-authenticated path | install through [verified HeyGen release instructions](https://developers.heygen.com/cli), then `npx hyperframes auth login` (helper needs >= v0.3.0)                                                                                                           |
+| `heygen`           | catalog (bgm/image/icon) + TTS (voice) + avatar video — the HyperFrames-authenticated path | install through [verified HeyGen release instructions](https://developers.heygen.com/cli), then `hyperframes auth login` (helper needs >= v0.3.0)                                                                                                           |
 | `mflux-generate`   | local image gen (FLUX), best-for-RAM                                                       | `uv venv ~/.venvs/mflux && VIRTUAL_ENV=~/.venvs/mflux uv pip install mflux==0.9.6`                                                                                                                                                                              |
 | `codex`            | image gen upsell (ChatGPT sub)                                                             | Codex CLI, logged in via ChatGPT (owns its own auth)                                                                                                                                                                                                            |
 | `parakeet-mlx`     | local transcription (default ASR, best) on Apple Silicon                                   | `uv venv ~/.venvs/parakeet && VIRTUAL_ENV=~/.venvs/parakeet uv pip install parakeet-mlx`                                                                                                                                                                        |
 | `ltx-2-mlx`        | local video gen                                                                            | `git clone https://github.com/dgrauet/ltx-2-mlx && cd ltx-2-mlx && uv sync --all-extras`                                                                                                                                                                        |
-| `npx hyperframes`  | Kokoro TTS (voice), Parakeet or whisper.cpp (transcribe), remove-background                | via the hyperframes CLI; Kokoro needs Python 3.10+ with `pip install kokoro-onnx soundfile`; Parakeet on macOS, Windows and glibc 2.32+ Linux: `npx hyperframes models install parakeet`; whisper.cpp is built on first use (Homebrew on macOS, else git+cmake) |
+| `hyperframes`  | Kokoro TTS (voice), Parakeet or whisper.cpp (transcribe), remove-background                | via the hyperframes CLI; Kokoro needs Python 3.10+ with `pip install kokoro-onnx soundfile`; Parakeet on macOS, Windows and glibc 2.32+ Linux: `hyperframes models install parakeet`; whisper.cpp is built on first use (Homebrew on macOS, else git+cmake) |
 
 The RAM-graded local-model shortlist + exact per-tier install/invoke lives in
 the CLI's bundled media-use engine, not in the standalone skill. Without a tool on PATH, its provider

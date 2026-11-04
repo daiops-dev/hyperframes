@@ -185,14 +185,14 @@ export function heygenAuthHeaders() {
   }
   if (cred?.unreadable)
     throw new Error(
-      `HeyGen credentials at ${cred.unreadable.file} can't be read (${cred.unreadable.code}) — fix or remove that path, then run \`npx hyperframes auth login\``,
+      `HeyGen credentials at ${cred.unreadable.file} can't be read (${cred.unreadable.code}) — fix or remove that path, then run \`hyperframes auth login\``,
     );
   if (cred?.expired)
     throw new Error(
-      "HeyGen OAuth token expired — run `npx hyperframes auth refresh` (or `npx hyperframes auth login`)",
+      "HeyGen OAuth token expired — run `hyperframes auth refresh` (or `hyperframes auth login`)",
     );
   throw new Error(
-    "no HyperFrames credentials — set $HEYGEN_API_KEY, or run `npx hyperframes auth login` (writes ~/.hyperframes/credentials)",
+    "no HyperFrames credentials — set $HEYGEN_API_KEY, or run `hyperframes auth login` (writes ~/.hyperframes/credentials)",
   );
 }
 
@@ -228,9 +228,9 @@ function errorCode(body) {
 export function billingRefusal(e) {
   const code = e?.body ? errorCode(e.body) : null;
   if (code === "hf_subscription_required")
-    return "This needs a HyperFrames plan. Run `npx hyperframes billing subscribe`: it opens the page and waits.";
+    return "This needs a HyperFrames plan. Run `hyperframes billing subscribe`: it opens the page and waits.";
   if (code === "hf_usage_exhausted")
-    return "Out of HyperFrames credits. Run `npx hyperframes billing top-up`: it opens the page and waits.";
+    return "Out of HyperFrames credits. Run `hyperframes billing top-up`: it opens the page and waits.";
   if (code === "api_key_required")
     return "This HeyGen feature isn't available with this sign-in yet. Nothing was charged. Use a HeyGen API key, or wait for HyperFrames billing in the CLI.";
   return null;

@@ -12,7 +12,7 @@
 - Highlight one series, grey the rest. A chart with one thing to say says it in its title.
 - The same object carries across beats: a bar becomes the ground of the next scene, a line becomes the road the camera follows.
 - The camera can dive into the one value that matters, then the rest falls away.
-- Registry charts first (`npx hyperframes catalog --query chart --json`); drive any chart library from a GSAP tween's `onUpdate`, never its own transitions (`../runtimes.md`).
+- Registry charts first (`hyperframes catalog --query chart --json`); drive any chart library from a GSAP tween's `onUpdate`, never its own transitions (`../runtimes.md`).
 
 ## Tells for this type
 

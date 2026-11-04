@@ -4,7 +4,7 @@
 
 ## Signing in
 
-`npx hyperframes auth status` says what is signed in. The credential is read in this order: a host app's `HEYGEN_ACCESS_TOKEN`, the session `npx hyperframes auth login` saved in `~/.hyperframes/credentials`, `HEYGEN_API_KEY`, `HYPERFRAMES_API_KEY`, then an API key saved with `auth login --api-key`. A signed-in session wins over an env key; the env key is used when HeyGen refuses to refresh the session. `heygen auth login` is a separate sign-in that only the `heygen` CLI reads.
+`hyperframes auth status` says what is signed in. The credential is read in this order: a host app's `HEYGEN_ACCESS_TOKEN`, the session `hyperframes auth login` saved in `~/.hyperframes/credentials`, `HEYGEN_API_KEY`, `HYPERFRAMES_API_KEY`, then an API key saved with `auth login --api-key`. A signed-in session wins over an env key; the env key is used when HeyGen refuses to refresh the session. `heygen auth login` is a separate sign-in that only the `heygen` CLI reads.
 
 | Credential                 | Pays with                                    | Covers                                                                                 |
 | -------------------------- | -------------------------------------------- | -------------------------------------------------------------------------------------- |
@@ -20,28 +20,28 @@ Make it without quoting a price or asking for a budget; `--plan` only prints wha
 
 ```bash
 # a still, edited from a reference picture: a clean plate with the words removed
-npx hyperframes media-use generate --type image --reference assets/frame.png --prompt "the same shot with no text or logos" --out assets/plate.png --plan
+hyperframes media-use generate --type image --reference assets/frame.png --prompt "the same shot with no text or logos" --out assets/plate.png --plan
 # a shot of 5–15 s, starting from a first frame; longer shots are shots chained from each one's last frame
-npx hyperframes media-use generate --type video --first-frame assets/s03-first.png --prompt "slow push in" --seconds 8 --out assets/s03.mp4
+hyperframes media-use generate --type video --first-frame assets/s03-first.png --prompt "slow push in" --seconds 8 --out assets/s03.mp4
 # a person re-shot from a still over one shot of the original (never across a cut), saying that shot's voice with lips
 # in sync and moving as the guide (the original shot itself) does; --mask x,y,w,h[,a-b] (repeatable, the guide's
 # pixels and seconds) blanks text in the guide, which HeyGen would copy. A guide with a cut inside is refused; pass
 # --allow-cuts only when you have looked at those frames and they are one shot
-npx hyperframes media-use generate --type video --reference assets/person.png --audio assets/s02-voice.m4a --motion assets/s02-original.mp4 --mask 110,615,390,165,0.4-2.0 --prompt "talks to camera, seated" --seconds 8 --aspect 9:16 --out assets/s02-person.mp4
+hyperframes media-use generate --type video --reference assets/person.png --audio assets/s02-voice.m4a --motion assets/s02-original.mp4 --mask 110,615,390,165,0.4-2.0 --prompt "talks to camera, seated" --seconds 8 --aspect 9:16 --out assets/s02-person.mp4
 # a speaking shot follows its own re-paced audio, not --audio: to land it on a set voice, redo its mouth to that voice
-npx hyperframes media-use generate --type lipsync --video assets/s02-person.mp4 --audio assets/s02-voice.mp3 --out assets/s02-lips.mp4
+hyperframes media-use generate --type lipsync --video assets/s02-person.mp4 --audio assets/s02-voice.mp3 --out assets/s02-lips.mp4
 # the same for a person who does not speak: no --audio, the guide clip carries the motion
-npx hyperframes media-use generate --type video --reference assets/person.png --motion assets/s05-original.mp4 --prompt "holds up a jar, smiles" --seconds 6 --aspect 9:16 --out assets/s05-person.mp4
+hyperframes media-use generate --type video --reference assets/person.png --motion assets/s05-original.mp4 --prompt "holds up a jar, smiles" --seconds 6 --aspect 9:16 --out assets/s05-person.mp4
 # a filmed person (or object) cut out of its background, as a transparent WebM
-npx hyperframes media-use generate --type cutout --video assets/host.mp4 --out assets/host-cutout.webm
+hyperframes media-use generate --type cutout --video assets/host.mp4 --out assets/host-cutout.webm
 # a person in a photo speaking a script in a HeyGen voice
-npx hyperframes media-use generate --type avatar --photo assets/person.png --script "…" --voice English --out assets/person.mp4
+hyperframes media-use generate --type avatar --photo assets/person.png --script "…" --voice English --out assets/person.mp4
 # a finished voice stays exactly as it is: --audio replaces --script and --voice, --avatar <look id> replaces --photo, --prompt moves a photo
-npx hyperframes media-use generate --type avatar --photo assets/person.png --audio assets/vo.mp3 --prompt "seated, talks with both hands" --aspect 16:9 --out assets/host.mp4
+hyperframes media-use generate --type avatar --photo assets/person.png --audio assets/vo.mp3 --prompt "seated, talks with both hands" --aspect 16:9 --out assets/host.mp4
 # a voice reading text; --voice takes a language (HeyGen's first voice in it, named in the output) or a voice id
-npx hyperframes media-use generate --type voice --script "…" --voice Chinese --out assets/vo.mp3
+hyperframes media-use generate --type voice --script "…" --voice Chinese --out assets/vo.mp3
 # music, 30, 60, 120 or 180 s (instrumental unless --vocals), trimmed to length in the composition
-npx hyperframes media-use generate --type music --prompt "warm lo-fi, soft keys" --seconds 30 --bpm 90 --out assets/music.mp3
+hyperframes media-use generate --type music --prompt "warm lo-fi, soft keys" --seconds 30 --bpm 90 --out assets/music.mp3
 ```
 
 The file lands at `--out` and the media ledger records it as generated, with the route, model, job, prompt and the files it was made from. Pictures and shots carry no text or logos: ask for clean plates and draw words in HyperFrames.
@@ -61,7 +61,7 @@ The file lands at `--out` and the media ledger records it as generated, with the
 ## Transcription: `transcribe --engine heygen`
 
 ```bash
-npx hyperframes transcribe interview.mp4 --engine heygen --speakers
+hyperframes transcribe interview.mp4 --engine heygen --speakers
 ```
 
 Word times from HeyGen's speech model, each word with its speaker under `--speakers`, in the same `transcript.json` local engines write. The local engines (`--engine auto`) are free and good for one clear voice; HeyGen is the better choice for several speakers, noise or music under the voice.

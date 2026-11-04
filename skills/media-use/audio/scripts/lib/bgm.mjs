@@ -130,7 +130,15 @@ export function generateBgmDetached({
   // generation itself is detached, so the engine still returns promptly.
   if (lyriaConfigured && !pyOk(LYRIA_PY_PROBE)) pipInstall(LYRIA_PY_DEPS);
   const useLyria = lyriaConfigured && pyOk(LYRIA_PY_PROBE);
-  if (!useLyria && !pyOk(BGM_PY_PROBE)) pipInstall(BGM_PY_DEPS);
+  // DAIOps: MusicGen weights are CC-BY-NC, so this copy never installs or runs it.
+  if (!useLyria) {
+    return {
+      disabled: true,
+      reason: lyriaConfigured
+        ? "Lyria configured but google-genai could not be installed; MusicGen is disabled in the DAIOps copy"
+        : "no Lyria key ($GEMINI_API_KEY); MusicGen is disabled in the DAIOps copy",
+    };
+  }
 
   const fd = openSync(log, "w");
   if (useLyria) {

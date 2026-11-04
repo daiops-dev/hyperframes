@@ -3,6 +3,14 @@ name: remotion-to-hyperframes
 description: Bring existing video code or footage into HyperFrames and verify it frame by frame against the original - Remotion first, also Motion Canvas, Lottie, Three.js, p5.js, canvas or plain HTML/CSS animation, or renders from Manim, After Effects or Blender. Use to port, convert, migrate or reuse work made with another tool.
 ---
 
+<!-- daiops:begin -->
+> **Running inside a DAIOps workspace** (added by DAIOps, see CHANGES.md)
+> - The `hyperframes` CLI is already installed at a pinned version. Call it directly as `hyperframes …`, not through npx.
+> - Do not run `hyperframes upgrade`, `hyperframes skills update`, or `hyperframes auth`. Versions are pinned and there is no HeyGen sign-in here.
+> - Do not start a preview server or suggest the desktop app. Nobody can open a local URL from a chat. Render a draft (`hyperframes render -q draft`) and attach the mp4 to your reply.
+> - Do not put emoji in on-screen text.
+<!-- daiops:end -->
+
 **Plugin installs:** Before setup or freshness commands, follow [plugin execution rules](../hyperframes/references/plugin-installation.md) when this skill is inside a HyperFrames plugin.
 
 # Import into HyperFrames
@@ -22,7 +30,7 @@ Code that depends on wall-clock time, live physics or the network can only come 
 1. For Remotion, run `python3 <SKILL_DIR>/scripts/lint_source.py <source dir>` first. Blockers (`useState`, `useReducer`, `useEffect` with dependencies, async `calculateMetadata`, React UI kits such as MUI, Chakra, Mantine, antd, shadcn, Radix, NextUI) don't translate: host them or refactor them out, never approximate (`references/escape-hatch.md`). Warnings (`@remotion/lambda` config, `delayRender`, `useMemo`, custom hooks) are dropped and noted.
 2. Translate to the `/hyperframes` contract: one sub-composition per scene, times in seconds (`frame / fps`), asset paths root-relative. Each Remotion API's equivalent is in `references/api-map.md`. Put Remotion's render-page rule `* { box-sizing: border-box; }` once in the root `index.html` `<style>`: without it every bordered or padded element grows by its border and padding.
 3. Keep it editable: the source's props become `data-composition-variables` bound with `data-var-text`, `data-var-src` or `var(--id)`; each `Sequence` becomes a timed clip or a sub-composition; a reused component becomes one sub-composition mounted several times with `data-variable-values`.
-4. Compare frame by frame: `npx hyperframes diff <original.mp4> . --at <t,…>` scores your project against the original at those times without rendering; sample every scene and both sides of every cut. Then render and `npx hyperframes diff <original.mp4> <hf.mp4>` scores every frame: SSIM, the worst cell of each frame (one late or recoloured element), cuts, and a sheet of the worst moments (thresholds per complexity tier in `references/eval.md`). Render the Remotion side with `Config.setVideoImageFormat("png")` and `Config.setColorSpace("bt709")`, or the diff measures the encoders (about 0.05 SSIM).
+4. Compare frame by frame: `hyperframes diff <original.mp4> . --at <t,…>` scores your project against the original at those times without rendering; sample every scene and both sides of every cut. Then render and `hyperframes diff <original.mp4> <hf.mp4>` scores every frame: SSIM, the worst cell of each frame (one late or recoloured element), cuts, and a sheet of the worst moments (thresholds per complexity tier in `references/eval.md`). Render the Remotion side with `Config.setVideoImageFormat("png")` and `Config.setColorSpace("bt709")`, or the diff measures the encoders (about 0.05 SSIM).
 5. Write what didn't translate cleanly (dropped volume ramps, approximated presentations, substituted fonts) to `TRANSLATION_NOTES.md`.
 
 | Remotion | Read |
@@ -36,7 +44,7 @@ Code that depends on wall-clock time, live physics or the network can only come 
 | `@remotion/google-fonts`, `Font.loadFont`, `@font-face` | `references/fonts.md` |
 | What can't be ported | `references/limitations.md` |
 
-Before hand-building a named visual the source used, search `npx hyperframes catalog --query "<the visual, in English>" --json`: it ranks the whole registry with nothing installed.
+Before hand-building a named visual the source used, search `hyperframes catalog --query "<the visual, in English>" --json`: it ranks the whole registry with nothing installed.
 
 ## Hosted
 

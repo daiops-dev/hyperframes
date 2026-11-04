@@ -9,7 +9,7 @@ they gate translation quality.
 | Tool                       | Input                       | Output                                                                        |
 | -------------------------- | --------------------------- | ----------------------------------------------------------------------------- |
 | `scripts/lint_source.py`   | Remotion source dir or file | JSON findings + exit code (0 clean, 1 has blockers)                           |
-| `npx hyperframes diff A B` | original MP4, HF MP4        | per-frame SSIM, worst cell per frame, cuts, `worst.jpg` sheet; exit 1 on fail |
+| `hyperframes diff A B` | original MP4, HF MP4        | per-frame SSIM, worst cell per frame, cuts, `worst.jpg` sheet; exit 1 on fail |
 
 Run them in this order: **lint → render → diff → (if fail) read the sheet**.
 
@@ -36,7 +36,7 @@ mkdir -p diff && node ../../../packages/cli/dist/cli.js diff ./remotion-src/out/
 # -> diff/summary.json, diff/worst.jpg, diff/ssim.log
 ```
 
-Before rendering, `npx hyperframes diff <baseline.mp4> hf-src --at 0.5,2,4.1`
+Before rendering, `hyperframes diff <baseline.mp4> hf-src --at 0.5,2,4.1`
 scores the project at chosen times with no render.
 
 ## Reading `diff/summary.json`

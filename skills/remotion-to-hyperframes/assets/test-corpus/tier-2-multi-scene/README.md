@@ -40,10 +40,10 @@ right time. Remotion does this implicitly by virtue of `<Sequence>`'s durationIn
 cd remotion-src && npm install && npm run render
 
 # 3. Render HyperFrames translation
-cd ../hf-src && npx hyperframes render --output ../hf.mp4
+cd ../hf-src && hyperframes render --output ../hf.mp4
 
 # 4. Compare
-npx hyperframes diff ../remotion-src/out/baseline.mp4 ../hf.mp4 --out ../diff
+hyperframes diff ../remotion-src/out/baseline.mp4 ../hf.mp4 --out ../diff
 ```
 
 ## Why threshold 0.95?

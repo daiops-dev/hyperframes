@@ -5,11 +5,11 @@ Read this reference when installing or updating skills, diagnosing unexpected sk
 For a plugin installation, follow [plugin execution rules](plugin-installation.md); the plugin manager owns updates and every skill is bundled. The commands below apply only to standalone skills.
 
 - **Core set, installed eagerly:** `/hyperframes`, `/hyperframes-cli`, `/hyperframes-registry` and `/media-use`.
-- **On demand:** `/figma`, `/slideshow`, `/remotion-to-hyperframes` and `/reverse-any-video`, installed with `npx hyperframes skills update <name>`.
+- **On demand:** `/figma`, `/slideshow`, `/remotion-to-hyperframes` and `/reverse-any-video`, installed with `hyperframes skills update <name>`.
 
 ## What `init` does
 
-`npx hyperframes init` installs the core set when it is missing and leaves every skill that is already installed as it is: it never refreshes, replaces or removes one. Updating is `npx hyperframes skills update`, run by you. Offline or rate-limited checks degrade gracefully and do not fail project scaffolding.
+`hyperframes init` installs the core set when it is missing and leaves every skill that is already installed as it is: it never refreshes, replaces or removes one. Updating is `hyperframes skills update`, run by you. Offline or rate-limited checks degrade gracefully and do not fail project scaffolding.
 
 `--skip-skills` makes `init` leave skills alone. `HYPERFRAMES_SKIP_SKILLS=1` does the same for CI and tests.
 
@@ -22,11 +22,11 @@ After `render`, `lint` and `validate`, the CLI prints `N HyperFrames skills out 
 ## Diagnose and update
 
 ```bash
-npx hyperframes skills check
-npx hyperframes skills check --json
-npx hyperframes skills update
-npx hyperframes skills update <name>
-npx hyperframes skills
+hyperframes skills check
+hyperframes skills check --json
+hyperframes skills update
+hyperframes skills update <name>
+hyperframes skills
 ```
 
 - `skills check` exits non-zero when an installed skill is stale or the core set is incomplete. Skills available on demand but not installed are not failures.
@@ -43,7 +43,7 @@ The CLI may print a one-line stale-skill reminder during `render`, `lint`, or `c
 A scaffolded project pins `hyperframes@<version>` in its `package.json` scripts so renders stay reproducible; the pin never advances on its own, and a pinned run of an older CLI prints no warning about it. When resuming a project whose scripts carry a pin, probe once before the first render-affecting command:
 
 ```bash
-npx hyperframes@latest upgrade --project . --check
+hyperframes upgrade --project . --check
 ```
 
-The probe is read-only and reports the pin against the latest release; keep the explicit `.` — on older CLI releases a bare `--project` followed by another flag consumes that flag as its directory value. When it reports the project behind — or any CLI output already shows it (the stderr notice `This project pins hyperframes@… (latest …)`, or `_meta.updateAvailable: true` in a `--json` result from a pinned script) — apply with `npx hyperframes@latest upgrade --project .`, then verify with `npx hyperframes check`. A passing check confirms the project's compositions still validate on the new version — not that rendered output is frame-identical to the old pin — so a successful bump is never silent: name the old and new version in the run's summary. A project with no composition yet needs no verification. If the check fails, revert the `package.json` change, continue on the pinned version, and report which version the project stays on and why. Act on the signal rather than relaying it to the user; never leave a bumped pin unverified.
+The probe is read-only and reports the pin against the latest release; keep the explicit `.` — on older CLI releases a bare `--project` followed by another flag consumes that flag as its directory value. When it reports the project behind — or any CLI output already shows it (the stderr notice `This project pins hyperframes@… (latest …)`, or `_meta.updateAvailable: true` in a `--json` result from a pinned script) — apply with `hyperframes upgrade --project .`, then verify with `hyperframes check`. A passing check confirms the project's compositions still validate on the new version — not that rendered output is frame-identical to the old pin — so a successful bump is never silent: name the old and new version in the run's summary. A project with no composition yet needs no verification. If the check fails, revert the `package.json` change, continue on the pinned version, and report which version the project stays on and why. Act on the signal rather than relaying it to the user; never leave a bumped pin unverified.

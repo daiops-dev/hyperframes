@@ -31,10 +31,10 @@ cd remotion-src && npm install && npm run render
 # Renders to remotion-src/out/baseline.mp4
 
 # Render HyperFrames translation
-cd ../hf-src && npx hyperframes render --output ../hf.mp4
+cd ../hf-src && hyperframes render --output ../hf.mp4
 
 # Compare with the HF CLI
-npx hyperframes diff ../remotion-src/out/baseline.mp4 ../hf.mp4 --out ../diff
+hyperframes diff ../remotion-src/out/baseline.mp4 ../hf.mp4 --out ../diff
 ```
 
 `expected.json` documents the SSIM threshold (0.95) for this fixture; the

@@ -287,7 +287,7 @@ export async function synthesizeOne({
     if (lang !== "en") args.push("--lang", lang);
     if (speed !== 1) args.push("--speed", String(speed));
     const r = await spawnP("npx", args, { cwd: hyperframesDir });
-    return synthResult(r, wavAbs, "kokoro (npx hyperframes tts)");
+    return synthResult(r, wavAbs, "kokoro (hyperframes tts)");
   });
 }
 

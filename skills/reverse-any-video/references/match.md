@@ -5,7 +5,7 @@ Where earlier rebuilds lost points on drawn layers, and what fixed it.
 ## Timing
 
 - Graphics change on exact frames. An element that is fully there on frame 241 is set there, not faded in; tween only what you saw move over several frames. A camera that lands in one frame is a `set`, not a tween.
-- Captions: take each group's first and last frame from the caption band's pixels, every frame (`npx hyperframes measure events <video> --roi <band>`, or a frame difference over the band). The words come from `npx hyperframes transcribe`, which can mishear names; the switch times come from the pixels, since captions often lead or trail the voice. Switch hard unless the original fades.
+- Captions: take each group's first and last frame from the caption band's pixels, every frame (`hyperframes measure events <video> --roi <band>`, or a frame difference over the band). The words come from `hyperframes transcribe`, which can mishear names; the switch times come from the pixels, since captions often lead or trail the voice. Switch hard unless the original fades.
 - A blur flash, a dissolve or a wipe at a cut is part of the cut: rebuild it over its measured frames.
 
 ## Size, type and position

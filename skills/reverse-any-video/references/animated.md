@@ -21,12 +21,12 @@ Work as `people.md` does, one generated shot per original shot, with these chang
 3. **Generate from the plate, with the shot as the guide:**
 
    ```bash
-   npx hyperframes media-use generate --type video --reference <plate> --motion <the original shot> \
+   hyperframes media-use generate --type video --reference <plate> --motion <the original shot> \
      --aspect <the source's> --seconds <n> --prompt "<the painting style, what moves, the camera>" --out <shot>.mp4
    ```
 
    `--first-frame` does not combine with `--motion`, so the plate goes in `--reference`. Name the style in the prompt, and blank drawn text in the guide with `--mask`.
 
-4. **Frame it** by comparing a stable shape at the shot's start and end with `npx hyperframes diff <video> . --at t,t,…`, then set scale and position by hand. `measure face` is for real faces.
+4. **Frame it** by comparing a stable shape at the shot's start and end with `hyperframes diff <video> . --at t,t,…`, then set scale and position by hand. `measure face` is for real faces.
 
 `REVERSE.md` lists which shots are generated and which layers are code.

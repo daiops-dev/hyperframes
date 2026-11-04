@@ -3,6 +3,14 @@ name: slideshow
 description: Build a HyperFrames slideshow to present live - slides, fragment reveals, branching hotspots and presenter mode with speaker notes, served by `hyperframes present` - or turn an existing page into one. Use when the person wants a deck or presentation rather than a rendered video.
 ---
 
+<!-- daiops:begin -->
+> **Running inside a DAIOps workspace** (added by DAIOps, see CHANGES.md)
+> - The `hyperframes` CLI is already installed at a pinned version. Call it directly as `hyperframes …`, not through npx.
+> - Do not run `hyperframes upgrade`, `hyperframes skills update`, or `hyperframes auth`. Versions are pinned and there is no HeyGen sign-in here.
+> - Do not start a preview server or suggest the desktop app. Nobody can open a local URL from a chat. Render a draft (`hyperframes render -q draft`) and attach the mp4 to your reply.
+> - Do not put emoji in on-screen text.
+<!-- daiops:end -->
+
 **Plugin installs:** Before setup or freshness commands, follow [plugin execution rules](../hyperframes/references/plugin-installation.md) when this skill is inside a HyperFrames plugin.
 
 # HyperFrames slideshow
@@ -42,7 +50,7 @@ A slideshow is a normal composition (the `/hyperframes` contract applies) plus o
 - `sceneId` equals a scene's `data-composition-id` (or give `startTime`/`endTime`). `notes` are presenter-only. `ttsScript`, `ttsAudioUrl` and `ttsDurationMs` are reserved and not wired yet.
 - **Fragments are absolute timeline times** (the same clock as `data-start`, not offsets inside the slide) within the slide's `[start, end]`. Navigation seeks, it never plays: each hold state must look right when the timeline is seeked straight to that time. A slide without fragments enters at a rest frame inside it.
 - **Branch slides** are ordinary scenes listed only in `slideSequences`, never in the main `slides` array. A hotspot's `target` is a sequence `id`; `region` is a percentage box (omit it for a full-slide button). Back returns to the slide that held the hotspot.
-- Text the audience must read is at least 40 px at 1920×1080. Before hand-building any named visual, search `npx hyperframes catalog --query "<the visual, in English>" --json`: it ranks the whole registry with nothing installed.
+- Text the audience must read is at least 40 px at 1920×1080. Before hand-building any named visual, search `hyperframes catalog --query "<the visual, in English>" --json`: it ranks the whole registry with nothing installed.
 
 ## Porting an existing page
 
@@ -55,8 +63,8 @@ A slideshow is a normal composition (the `/hyperframes` contract applies) plus o
 ## Present and hand off
 
 - **Never render a deck to MP4**: `render` keeps only the first scene and truncates silently. For stills, `snapshot --at` each slide.
-- Run `npx hyperframes check --json` until it is clean. The slideshow rule checks that every `sceneId` resolves, every hotspot `target` exists, fragments sit inside their slide, and main-line slides don't overlap.
-- Serve it with `npx hyperframes present <project-dir>` and hand over the URL it prints: "Click Present, or press P, to open the audience tab."
+- Run `hyperframes check --json` until it is clean. The slideshow rule checks that every `sceneId` resolves, every hotspot `target` exists, fragments sit inside their slide, and main-line slides don't overlap.
+- Serve it with `hyperframes present <project-dir>` and hand over the URL it prints: "Click Present, or press P, to open the audience tab."
 - The project's root `index.html` should open as a working deck: `<hyperframes-slideshow>` around `<hyperframes-player src="…">`, with the raw composition in a subfolder if needed. The component owns Present (P), Prev/Next, the counter, global mute, fullscreen, swipe, hotspots, presenter notes (editable, kept per deck) and stopping media on slide exit. Don't build your own versions of any of these.
 - Screen sharing: in Google Meet share the audience **tab**, which keeps rendering in the background. In Zoom drag the audience tab into its own window and share that; a fully covered window freezes.
 - A deck opened from the bare player bundle without `present` needs workarounds: `references/standalone-harness.md`.

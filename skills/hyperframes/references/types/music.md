@@ -4,7 +4,7 @@ The song is the structure. Timing facts (hits, beat trust, loops) are in `../fil
 
 ## Song structure becomes edit structure
 
-- Find the sections first: `npx hyperframes audio <track> --only sections,onsets,moments --json`. Each section is a chapter: intro, verse, chorus, bridge, outro.
+- Find the sections first: `hyperframes audio <track> --only sections,onsets,moments --json`. Each section is a chapter: intro, verse, chorus, bridge, outro.
 - Cut density follows energy: slower shots in verses, one picture per strong beat in the chorus, a held image on a breakdown.
 - The chorus returns to one home stage and escalates each time it comes back; the ending rhymes with the opening.
 - Chapter breaks land on section boundaries, with a transition that belongs to the film's medium (a brush wipe, a paper tear, a match cut).

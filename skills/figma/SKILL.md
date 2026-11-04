@@ -3,6 +3,14 @@ name: figma
 description: Bring Figma into a HyperFrames video - rendered assets, brand tokens, components, storyboard frames as reconstructed motion (frames read as states, not slides), shaders and connector-assisted motion. Use when the person pastes a figma.com link or asks to use a Figma design, frame, logo or brand.
 ---
 
+<!-- daiops:begin -->
+> **Running inside a DAIOps workspace** (added by DAIOps, see CHANGES.md)
+> - The `hyperframes` CLI is already installed at a pinned version. Call it directly as `hyperframes …`, not through npx.
+> - Do not run `hyperframes upgrade`, `hyperframes skills update`, or `hyperframes auth`. Versions are pinned and there is no HeyGen sign-in here.
+> - Do not start a preview server or suggest the desktop app. Nobody can open a local URL from a chat. Render a draft (`hyperframes render -q draft`) and attach the mp4 to your reply.
+> - Do not put emoji in on-screen text.
+<!-- daiops:end -->
+
 **Plugin installs:** Before setup or freshness commands, follow [plugin execution rules](../hyperframes/references/plugin-installation.md) when this skill is inside a HyperFrames plugin.
 
 # Figma → HyperFrames
@@ -22,14 +30,14 @@ Every import happens at build time and freezes a local file with its source reco
 
 ## Commands
 
-- A layer, logo or image: `npx hyperframes figma asset '<url or fileKey:nodeId>' [more refs] --format svg|png --scale 2 --description "<what it is>" [--entity "<brand mark>"]`. SVG for vectors and logos, PNG at 2x for raster. Several nodes of one file in one call render in a single request; `--entity` lets `/media-use` find a brand mark later.
-- Brand colours and type: `npx hyperframes figma tokens <fileKey>`. Run it before `component` and paste the printed entries into `data-composition-variables`. Without Enterprise it falls back to published styles. A connector can supply variables there instead: cache its raw response in `.media/figma-cache/` and write the bindings to `.media/figma-bindings.jsonl` (`{kind:"binding", figmaId, sourceFileKey, compositionVariableId:"figma:<name>", version}`).
-- A frame as editable HTML at exact geometry: `npx hyperframes figma component '<url or fileKey:nodeId>'`, packaged under `compositions/components/<name>/`. A fill bound to an imported token comes out as `var(--slug, #literal)`, so one variable re-brands every import; an unknown token stays a literal marked `data-figma-unresolved`: import that library's tokens and re-import. Ask once which file a library is; never match by hex.
+- A layer, logo or image: `hyperframes figma asset '<url or fileKey:nodeId>' [more refs] --format svg|png --scale 2 --description "<what it is>" [--entity "<brand mark>"]`. SVG for vectors and logos, PNG at 2x for raster. Several nodes of one file in one call render in a single request; `--entity` lets `/media-use` find a brand mark later.
+- Brand colours and type: `hyperframes figma tokens <fileKey>`. Run it before `component` and paste the printed entries into `data-composition-variables`. Without Enterprise it falls back to published styles. A connector can supply variables there instead: cache its raw response in `.media/figma-cache/` and write the bindings to `.media/figma-bindings.jsonl` (`{kind:"binding", figmaId, sourceFileKey, compositionVariableId:"figma:<name>", version}`).
+- A frame as editable HTML at exact geometry: `hyperframes figma component '<url or fileKey:nodeId>'`, packaged under `compositions/components/<name>/`. A fill bound to an imported token comes out as `var(--slug, #literal)`, so one variable re-brands every import; an unknown token stays a literal marked `data-figma-unresolved`: import that library's tokens and re-import. Ask once which file a library is; never match by hex.
 - Check hero components against Figma's pixels (`figma asset <same node> --format png`). Text drift is the usual cause; report drift you can't fix instead of hand-tweaking the import.
 
 ## Motion (connector)
 
-Usage beacon: these phases have no CLI touchpoint, so run `npx hyperframes events --skill=figma-motion` when you begin and `npx hyperframes events --skill=figma-motion --event=skill_completed --outcome=success|error` when done. Same for shaders (`figma-shaders`) and storyboards (`figma-storyboard`).
+Usage beacon: these phases have no CLI touchpoint, so run `hyperframes events --skill=figma-motion` when you begin and `hyperframes events --skill=figma-motion --event=skill_completed --outcome=success|error` when done. Same for shaders (`figma-shaders`) and storyboards (`figma-storyboard`).
 
 1. Fetch motion context for the parent frame in one recursive request; cache the raw JSON in `.media/figma-cache/`.
 2. Normalise with `motionContextToDocs(raw, { selectorFor, repeat })` from `@hyperframes/core/figma`, never by transcribing keyframes. It reads the motion.dev snippets (the CSS snippets stretch durations), drops loop-wrap tail keyframes and keeps bezier eases. `selectorFor` returns the ids from the component import.

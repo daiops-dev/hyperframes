@@ -12,8 +12,8 @@ Read the first of `frame.md`, `design.md`, `DESIGN.md` at the project root that 
 
 ## From a brand
 
-- A website: `npx hyperframes capture <url> --json` writes screenshots, the copy (`extracted/visible-text.txt`), images, logos, `extracted/tokens.json` (colours, fonts) and `extracted/design-styles.json` under its output folder. Look at the screenshots before choosing anything. A capture that exits non-zero, prints `ok: false` or writes `BLOCKED.md` failed: take no brand data from its partial files.
-- Figma: `npx hyperframes figma tokens <fileKey>` (`/figma`).
+- A website: `hyperframes capture <url> --json` writes screenshots, the copy (`extracted/visible-text.txt`), images, logos, `extracted/tokens.json` (colours, fonts) and `extracted/design-styles.json` under its output folder. Look at the screenshots before choosing anything. A capture that exits non-zero, prints `ok: false` or writes `BLOCKED.md` failed: take no brand data from its partial files.
+- Figma: `hyperframes figma tokens <fileKey>` (`/figma`).
 - Images the person attached: take palette and type from what you see.
 
 Use the brand's own fonts when the capture shipped their files or they are bundled (`format.md`); otherwise download the family's `.woff2` into `assets/fonts/` with an `@font-face`, or pick the closest bundled family and say so.

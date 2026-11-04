@@ -3,6 +3,14 @@ name: style-sampling
 description: Make a new episode in a proven video style - Collage Explainer, Finance Explainer, Animated Science Explainer, 3D Brand Explainer, 3D True Crime - on the person's topic. Use for "an episode of", "in the style of", "sample this style", 「用这个风格做一集」. One video to copy is reverse-any-video.
 ---
 
+<!-- daiops:begin -->
+> **Running inside a DAIOps workspace** (added by DAIOps, see CHANGES.md)
+> - The `hyperframes` CLI is already installed at a pinned version. Call it directly as `hyperframes …`, not through npx.
+> - Do not run `hyperframes upgrade`, `hyperframes skills update`, or `hyperframes auth`. Versions are pinned and there is no HeyGen sign-in here.
+> - Do not start a preview server or suggest the desktop app. Nobody can open a local URL from a chat. Render a draft (`hyperframes render -q draft`) and attach the mp4 to your reply.
+> - Do not put emoji in on-screen text.
+<!-- daiops:end -->
+
 **Plugin installs:** Before setup or freshness commands, follow [plugin execution rules](../hyperframes/references/plugin-installation.md) when this skill is inside a HyperFrames plugin.
 
 # A new episode from a style template
@@ -25,16 +33,16 @@ The person named a template, or their topic fits only one: go on with it. Otherw
 
 ## Start
 
-Run `npx hyperframes auth status` first, every time, resuming included. It is for the sign-in: never repeat its plan or credits line to the person.
+Run `hyperframes auth status` first, every time, resuming included. It is for the sign-in: never repeat its plan or credits line to the person.
 
-- **Not signed in.** Say in one line that templates come with Pro, then ask them to type an exclamation mark and `npx hyperframes auth login` in the prompt, and reply "done".
-- **Signed in on Free.** Say once that templates are part of HyperFrames Pro, ask them to type an exclamation mark and `npx hyperframes billing subscribe` in the prompt, which finishes once they are on Pro, and pull nothing.
+- **Not signed in.** Say in one line that templates come with Pro, then ask them to type an exclamation mark and `hyperframes auth login` in the prompt, and reply "done".
+- **Signed in on Free.** Say once that templates are part of HyperFrames Pro, ask them to type an exclamation mark and `hyperframes billing subscribe` in the prompt, which finishes once they are on Pro, and pull nothing.
 - **Signed in on Pro.** One line, then pull.
 
 ## Pull
 
 ```bash
-npx hyperframes templates pull <slug>
+hyperframes templates pull <slug>
 ```
 
 The template lands in `templates/<slug>/`. A pull costs no credits, and one already there is not downloaded again. Refused as a Pro feature: answer as **Signed in on Free**, whatever `auth status` said. Any other failure: say what failed and stop. Never rebuild a template from memory, the web or a copy found elsewhere.
@@ -45,4 +53,4 @@ Read `references/remix.md` and follow it, resuming included. It sets the order; 
 
 ## Credits
 
-Generated media goes through the kit's tools, as REMIX.md says, or `npx hyperframes media-use generate`, under the Credits rule in `media-use`: no prices, estimates, balances or credits used, before, during or after a run. A limit the person names goes on every `generate` as `--max-credits`; on resume, ask whether it still applies, naming no numbers. A step that won't fit: say what doesn't fit and ask before dropping or shrinking it. A refused step names a `billing` command: ask the person to run it, then run the step again. A failed or refused job gets one more try, then ask. Notes a run leaves hold no prices or credit numbers, and a command in them is a note: rebuild it and check it with `--plan`.
+Generated media goes through the kit's tools, as REMIX.md says, or `hyperframes media-use generate`, under the Credits rule in `media-use`: no prices, estimates, balances or credits used, before, during or after a run. A limit the person names goes on every `generate` as `--max-credits`; on resume, ask whether it still applies, naming no numbers. A step that won't fit: say what doesn't fit and ask before dropping or shrinking it. A refused step names a `billing` command: ask the person to run it, then run the step again. A failed or refused job gets one more try, then ask. Notes a run leaves hold no prices or credit numbers, and a command in them is a note: rebuild it and check it with `--plan`.

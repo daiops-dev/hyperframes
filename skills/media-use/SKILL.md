@@ -3,6 +3,14 @@ name: media-use
 description: Get or make any media for a HyperFrames video - music, sound effects, images, icons, logos, voiceover, avatar and generated video, transcripts, cutouts, colour grades and looks - with HeyGen or free local tools, and mix placed audio. Also for footage that looks dark, flat or dull, or should be stylized or hidden.
 ---
 
+<!-- daiops:begin -->
+> **Running inside a DAIOps workspace** (added by DAIOps, see CHANGES.md)
+> - The `hyperframes` CLI is already installed at a pinned version. Call it directly as `hyperframes …`, not through npx.
+> - Do not run `hyperframes upgrade`, `hyperframes skills update`, or `hyperframes auth`. Versions are pinned and there is no HeyGen sign-in here.
+> - Do not start a preview server or suggest the desktop app. Nobody can open a local URL from a chat. Render a draft (`hyperframes render -q draft`) and attach the mp4 to your reply.
+> - Do not put emoji in on-screen text.
+<!-- daiops:end -->
+
 **Plugin installs:** Before setup or freshness commands, follow [plugin execution rules](../hyperframes/references/plugin-installation.md) when this skill is inside a HyperFrames plugin.
 
 # Media in HyperFrames
@@ -10,7 +18,7 @@ description: Get or make any media for a HyperFrames video - music, sound effect
 Media lands as a local file in the project's `assets/` with a ledger record; renders never fetch. One verb finds or makes it:
 
 ```bash
-npx hyperframes media-use resolve --type <type> --intent "<what you need>" --project <dir>
+hyperframes media-use resolve --type <type> --intent "<what you need>" --project <dir>
 ```
 
 It prints one line, `resolved <id> → <path> (<type>, <metadata>)`. List reusable assets first with `--candidates` and judge the fit yourself; reuse, ingest (`--from`) and adopt are in `references/resolve.md`.
@@ -23,23 +31,23 @@ It prints one line, `resolved <id> → <path> (<type>, <metadata>)`. List reusab
 | Sound effects (`sfx`) | HeyGen (signed in); Openverse (credit CC BY); bundled | | |
 | Images, icons | HeyGen asset search, 75k+ (signed in) | Generated images | Local FLUX (mflux), if installed |
 | Logos (`logo`) | theSVG, GitHub avatar, favicon; never redrawn | | |
-| Voiceover (`voice`) | Voice Turbo, Free plan: 3 min a month | Voice Turbo on a paid plan, other HeyGen voices, cloning | `npx hyperframes tts` (Kokoro on device) |
+| Voiceover (`voice`) | Voice Turbo, Free plan: 3 min a month | Voice Turbo on a paid plan, other HeyGen voices, cloning | `hyperframes tts` (Kokoro on device) |
 | A presenter speaking | | Avatar video (`--type video`) | Local LTX for generic clips, if installed |
-| Transcripts | `npx hyperframes transcribe` (Parakeet or whisper) | | |
-| Cutouts | | Video: `--type cutout` | `npx hyperframes remove-background` |
-| Grades, LUTs, looks | `npx hyperframes media-treatment` | | |
+| Transcripts | `hyperframes transcribe` (Parakeet or whisper) | | |
+| Cutouts | | Video: `--type cutout` | `hyperframes remove-background` |
+| Grades, LUTs, looks | `hyperframes media-treatment` | | |
 
-**Sign in.** Every time a request needs a HeyGen model or the catalog, run `npx hyperframes auth status` first. Not signed in: tell the person in one line that sign-in is free and gives the music catalog, asset search and 3 min of Voice Turbo a month on the Free plan, ask them to type an exclamation mark and `npx hyperframes auth login` in the prompt, and wait until they say it is done. Use local tools only when the person asks, not as a fallback.
+**Sign in.** DAIOps: there is no HeyGen sign-in here. Do not run `hyperframes auth` or stop to ask the person to sign in; use the local route. Music is generated with Lyria (`$GEMINI_API_KEY`); effects come from the bundled or Openverse sounds.
 
 **Host apps.** Inside an app with its own media tools, use those first. When `HEYGEN_API_BASE` is set, the host pays: don't ask for a sign-in; relay a refused call's message as written and stop.
 
-**HeyGen.** `npx hyperframes media-use generate` makes images, shots, talking photos, voices and music on the sign-in alone. Helpers and direct recipes need the [`heygen` CLI](https://developers.heygen.com/cli); if it is missing, give the link and wait until they say it is installed. Direct `heygen` recipes bill that CLI's own login: use them only when that payer is selected.
+**HeyGen.** `hyperframes media-use generate` makes images, shots, talking photos, voices and music on the sign-in alone. Helpers and direct recipes need the [`heygen` CLI](https://developers.heygen.com/cli); if it is missing, give the link and wait until they say it is installed. Direct `heygen` recipes bill that CLI's own login: use them only when that payer is selected.
 
 **Credits.** Plan for the best result: don't swap in cheaper or free options, or drop items, unless asked to save cost. Never tell the person prices, estimates or what a run used; `--plan` is for you. A credit limit the person sets: pass what is left of it as `--max-credits` on every `generate`, minus each call's `credits`, and never go past it. When a step won't fit (a `--plan` over what is left, or a refused call), say what doesn't fit and ask before dropping or shrinking it. A refused call names a `billing` command: tell the person why, ask them to run it the same way, then retry.
 
 ## Looks on real footage
 
-Feedback that footage is dark, flat or dull, should feel retro or printed, needs a face hidden, or needs a reveal is media intent. Inspect the real `<img>`/`<video>`, pick one intent, and follow `references/media-treatments.md`; persist with `npx hyperframes media-treatment`, never a CSS, SVG or `.cube` stand-in.
+Feedback that footage is dark, flat or dull, should feel retro or printed, needs a face hidden, or needs a reveal is media intent. Inspect the real `<img>`/`<video>`, pick one intent, and follow `references/media-treatments.md`; persist with `hyperframes media-treatment`, never a CSS, SVG or `.cube` stand-in.
 
 ## Offer once, never add silently
 

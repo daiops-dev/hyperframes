@@ -11,7 +11,7 @@ What is specific to HyperFrames, or was measured on shipped films, when one vide
 
 ## From a website
 
-- `npx hyperframes capture <url> --json` writes `screenshots/full-page.png`: a 1x plate of the whole page, taken after the scroll pass with sticky and fixed elements made static, pixel-exact for a 1920-wide viewport travelling down it. It is skipped above 16384 px tall (use `scroll-*.png`); pushing in past 1:1 needs its own 2x capture of that region.
+- `hyperframes capture <url> --json` writes `screenshots/full-page.png`: a 1x plate of the whole page, taken after the scroll pass with sticky and fixed elements made static, pixel-exact for a 1920-wide viewport travelling down it. It is skipped above 16384 px tall (use `scroll-*.png`); pushing in past 1:1 needs its own 2x capture of that region.
 - To show the site as it is, use its screenshots. Rebuilding the page in HTML drifts from the real layout; rebuild only the part that moves, or overlay captured assets at measured positions.
 - `--capture-budget` (default 120000 ms) bounds work after navigation; `--timeout` bounds navigation only. Videos are not downloaded: `capture --video <dir> --list`, then `--index N`. `asset-descriptions.md` has vision captions only when `OPENROUTER_API_KEY`, `GEMINI_API_KEY` or `GOOGLE_API_KEY` is set.
 - "very little text content" with an empty asset catalog means the capture is unusable even when it says `ok: true`. A `logo-*.svg` name is a guess from page structure, not proof.
@@ -25,12 +25,12 @@ What is specific to HyperFrames, or was measured on shipped films, when one vide
 - Never invent a version. Use the first non-draft release published at or after the merge; else the default branch's `package.json` version as "unreleased"; else only the PR URL.
 - Length from size (additions + deletions), as a ceiling: ≲50 lines 20–40 s, 50–200 40–70 s, 200–600 70–110 s, ≳600 lines or 25+ files 110–180 s.
 - Show 2–4 hunks of 4–12 lines; counts like +N/−M go on a stat card, not into the voiceover.
-- The `code-*` registry blocks (`npx hyperframes catalog --query code --json`) are 1920×1080 scenes driven by `window.__TOKENS` (Shiki tokens, `github-dark`; `fontStyle` bit 1 italic, bit 2 bold) and `window.__BLOCK` (`{id, effect, seq, line?, duration}`). `code-diff` and `code-morph` need at least two states; `code-highlight` counts lines from 0 and `code-scroll` from 1; `code-typing` types at a fixed speed, so check characters × speed against the scene's duration. They reserve no caption band: inset the panel when captions are on.
+- The `code-*` registry blocks (`hyperframes catalog --query code --json`) are 1920×1080 scenes driven by `window.__TOKENS` (Shiki tokens, `github-dark`; `fontStyle` bit 1 italic, bit 2 bold) and `window.__BLOCK` (`{id, effect, seq, line?, duration}`). `code-diff` and `code-morph` need at least two states; `code-highlight` counts lines from 0 and `code-scroll` from 1; `code-typing` types at a fixed speed, so check characters × speed against the scene's duration. They reserve no caption band: inset the panel when captions are on.
 
 ## On music
 
 - Library music, HeyGen's included, comes as 15–30 s loops: loop the bed to the film with a 0.4 s fade-in and a 1.5 s fade-out. A track whose opening is a quiet build drains a short film: start from a stronger later section.
-- Trust beat times only on rhythmic stretches; on calm music the tracker invents a metronome, often at double tempo (`npx hyperframes beats` reports `bpmConfidence`). Cut there on phrase and energy changes; `npx hyperframes audio --only sections,onsets,moments --json` finds them.
+- Trust beat times only on rhythmic stretches; on calm music the tracker invents a metronome, often at double tempo (`hyperframes beats` reports `bpmConfidence`). Cut there on phrase and energy changes; `hyperframes audio --only sections,onsets,moments --json` finds them.
 - A move that must land on a hit starts 40–190 ms early; a reaction starts 0–45 ms after. The hit itself is a 0 ms `tl.set`: easing a hit kills it. Scenes tile the track with no gaps.
 - A word meant to be read holds at least one beat. Any single treatment goes stale after about 6 s: lengthen a section with a hold or a new treatment, never by slowing tweens. On rhythmic sections give footage one clip per strong beat; on calm ones one slow push from 1.0 to 1.08.
 
