@@ -15,7 +15,7 @@ For HyperFrames itself (docs, CLI, issues), use the original repository. This co
 ## Updating to a new upstream release
 
 1. Fetch the new upstream tag and start branch `daiops` from it.
-2. Restore the `daiops/` folder from the previous `daiops-<tag>` tag.
+2. Restore the `daiops/` folder from the tip of branch `daiops` (not the last `daiops-<tag>` tag: fixes made after that build live only on the branch).
 3. Run `node daiops/build.mjs <tag>`. It fails if a patch no longer matches anything.
 4. Commit, tag `daiops-<tag>`, and publish the branch and the tag.
 5. Re-screen the talent in the DAIOps admin console (new commit) and update it.
