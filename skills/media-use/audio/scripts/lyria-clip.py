@@ -48,7 +48,7 @@ def main() -> None:
     a = ap.parse_args()
     plan = json.loads(Path(a.plan).read_text(encoding="utf-8"))
     prompt = build_prompt(plan)
-    print("prompt:\n" + prompt)
+    print("prompt:\n" + prompt, flush=True)
 
     from google import genai
 
@@ -56,9 +56,21 @@ def main() -> None:
     if not key:
         print("generation failed: GEMINI_API_KEY is not set", file=sys.stderr)
         sys.exit(1)
+    import time
+
     client = genai.Client(api_key=key)
+    # Run in the background and poll, so a slow or stuck generation ends with a clear error instead of hanging
     try:
-        interaction = client.interactions.create(model="lyria-3-clip-preview", input=prompt)
+        interaction = client.interactions.create(model="lyria-3-clip-preview", input=prompt, background=True, timeout=60)
+        deadline = time.time() + float(plan.get("clip_timeout", 240))
+        while getattr(interaction, "status", None) in (None, "in_progress", "queued", "requires_continuation"):
+            if time.time() > deadline:
+                print(f"generation failed: still {interaction.status} after {plan.get('clip_timeout', 240)} s (id {interaction.id})", file=sys.stderr)
+                sys.exit(1)
+            print(f"status {interaction.status} …", flush=True)
+            time.sleep(5)
+            interaction = client.interactions.get(interaction.id, timeout=30)
+        print(f"status {interaction.status}", flush=True)
     except Exception as exc:  # report the raw error, do not fall back to another tool
         print(f"generation failed: {exc}", file=sys.stderr)
         sys.exit(1)
