@@ -4,7 +4,7 @@ Built from [heygen-com/hyperframes](https://github.com/heygen-com/hyperframes) `
 
 ## Removed
 
-Everything outside `skills/` except `LICENSE` and `CREDITS.md`: `.agents`, `.claude`, `.claude-plugin`, `.codex`, `.codex-plugin`, `.cursor-plugin`, `.editorconfig`, `.env.example`, `.fallowrc.jsonc`, `.gitattributes`, `.github`, `.gitignore`, `.oxfmtrc.json`, `.oxlintrc.json`, `.prettierignore`, `ADOPTERS.md`, `AGENTS.md`, `CHANGES.md`, `CLAUDE.md`, `CODE_OF_CONDUCT.md`, `CONTRIBUTING.md`, `DESIGN.md`, `DOCS_GUIDELINES.md`, `Dockerfile.test`, `NOTICE`, `README.md`, `SECURITY.md`, `TRIAGE.md`, `assets`, `bun.lock`, `commitlint.config.js`, `context7.json`, `daiops.yaml`, `docs`, `examples`, `gemini-extension.json`, `knip.config.ts`, `lefthook.yml`, `package.json`, `packages`, `plans`, `plugin.json`, `registry`, `releases`, `scripts`, `server.json`, `skills-manifest.json`, `test-utils`, `themes`, `updates`.
+Everything outside `skills/` except `LICENSE` and `CREDITS.md`: `CHANGES.md`, `NOTICE`, `README.md`, `daiops.yaml`.
 
 ## Added
 
