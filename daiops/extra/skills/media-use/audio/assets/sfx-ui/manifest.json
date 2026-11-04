@@ -1,0 +1,224 @@
+{
+  "click_001": {
+    "file": "click_001.mp3",
+    "duration": 0.14,
+    "role": "click",
+    "description": "Short UI click for a real cursor click."
+  },
+  "click_002": {
+    "file": "click_002.mp3",
+    "duration": 0.05,
+    "role": "click",
+    "description": "Short UI click. click_001 is a cursor click; click_002-005 are micro clicks usable as key ticks."
+  },
+  "click_003": {
+    "file": "click_003.mp3",
+    "duration": 0.05,
+    "role": "click",
+    "description": "Short UI click. click_001 is a cursor click; click_002-005 are micro clicks usable as key ticks."
+  },
+  "click_004": {
+    "file": "click_004.mp3",
+    "duration": 0.05,
+    "role": "click",
+    "description": "Short UI click. click_001 is a cursor click; click_002-005 are micro clicks usable as key ticks."
+  },
+  "click_005": {
+    "file": "click_005.mp3",
+    "duration": 0.05,
+    "role": "click",
+    "description": "Short UI click. click_001 is a cursor click; click_002-005 are micro clicks usable as key ticks."
+  },
+  "close_001": {
+    "file": "close_001.mp3",
+    "duration": 0.19,
+    "role": "panel-out",
+    "description": "Panel or card closing: an element leaving."
+  },
+  "close_002": {
+    "file": "close_002.mp3",
+    "duration": 0.36,
+    "role": "panel-out",
+    "description": "Panel or card closing: an element leaving."
+  },
+  "close_003": {
+    "file": "close_003.mp3",
+    "duration": 0.36,
+    "role": "panel-out",
+    "description": "Panel or card closing: an element leaving."
+  },
+  "close_004": {
+    "file": "close_004.mp3",
+    "duration": 0.36,
+    "role": "panel-out",
+    "description": "Panel or card closing: an element leaving."
+  },
+  "drop_001": {
+    "file": "drop_001.mp3",
+    "duration": 0.17,
+    "role": "pop",
+    "description": "Soft drop: a chip, badge, card or number landing in place."
+  },
+  "drop_002": {
+    "file": "drop_002.mp3",
+    "duration": 0.22,
+    "role": "pop",
+    "description": "Soft drop: a chip, badge, card or number landing in place."
+  },
+  "drop_003": {
+    "file": "drop_003.mp3",
+    "duration": 0.22,
+    "role": "pop",
+    "description": "Soft drop: a chip, badge, card or number landing in place."
+  },
+  "drop_004": {
+    "file": "drop_004.mp3",
+    "duration": 0.31,
+    "role": "pop",
+    "description": "Soft drop: a chip, badge, card or number landing in place."
+  },
+  "maximize_001": {
+    "file": "maximize_001.mp3",
+    "duration": 0.29,
+    "role": "panel-in",
+    "description": "Element growing or expanding into view (zoom-in UI move)."
+  },
+  "maximize_002": {
+    "file": "maximize_002.mp3",
+    "duration": 0.29,
+    "role": "panel-in",
+    "description": "Element growing or expanding into view (zoom-in UI move)."
+  },
+  "maximize_003": {
+    "file": "maximize_003.mp3",
+    "duration": 0.24,
+    "role": "panel-in",
+    "description": "Element growing or expanding into view (zoom-in UI move)."
+  },
+  "maximize_006": {
+    "file": "maximize_006.mp3",
+    "duration": 0.41,
+    "role": "panel-in",
+    "description": "Element growing or expanding into view (zoom-in UI move)."
+  },
+  "minimize_001": {
+    "file": "minimize_001.mp3",
+    "duration": 0.29,
+    "role": "panel-out",
+    "description": "Element shrinking away (zoom-out UI move)."
+  },
+  "minimize_002": {
+    "file": "minimize_002.mp3",
+    "duration": 0.29,
+    "role": "panel-out",
+    "description": "Element shrinking away (zoom-out UI move)."
+  },
+  "minimize_003": {
+    "file": "minimize_003.mp3",
+    "duration": 0.24,
+    "role": "panel-out",
+    "description": "Element shrinking away (zoom-out UI move)."
+  },
+  "minimize_006": {
+    "file": "minimize_006.mp3",
+    "duration": 0.41,
+    "role": "panel-out",
+    "description": "Element shrinking away (zoom-out UI move)."
+  },
+  "open_001": {
+    "file": "open_001.mp3",
+    "duration": 0.19,
+    "role": "panel-in",
+    "description": "Panel or card opening: a result card or window appearing."
+  },
+  "open_002": {
+    "file": "open_002.mp3",
+    "duration": 0.36,
+    "role": "panel-in",
+    "description": "Panel or card opening: a result card or window appearing."
+  },
+  "open_003": {
+    "file": "open_003.mp3",
+    "duration": 0.36,
+    "role": "panel-in",
+    "description": "Panel or card opening: a result card or window appearing."
+  },
+  "open_004": {
+    "file": "open_004.mp3",
+    "duration": 0.36,
+    "role": "panel-in",
+    "description": "Panel or card opening: a result card or window appearing."
+  },
+  "pluck_002": {
+    "file": "pluck_002.mp3",
+    "duration": 0.19,
+    "role": "pop",
+    "description": "Light pluck: a small element landing. Use sparingly."
+  },
+  "select_001": {
+    "file": "select_001.mp3",
+    "duration": 0.07,
+    "role": "click",
+    "description": "Soft select tap for a real cursor click or a choice being made."
+  },
+  "select_002": {
+    "file": "select_002.mp3",
+    "duration": 0.07,
+    "role": "click",
+    "description": "Soft select tap for a real cursor click or a choice being made."
+  },
+  "select_007": {
+    "file": "select_007.mp3",
+    "duration": 0.1,
+    "role": "click",
+    "description": "Soft select tap for a real cursor click or a choice being made."
+  },
+  "select_008": {
+    "file": "select_008.mp3",
+    "duration": 0.1,
+    "role": "click",
+    "description": "Soft select tap for a real cursor click or a choice being made."
+  },
+  "tick_001": {
+    "file": "tick_001.mp3",
+    "duration": 0.07,
+    "role": "key-tick",
+    "description": "Very short key tick for text arriving letter by letter or line by line. Rotate 3+ takes, keep quiet."
+  },
+  "tick_002": {
+    "file": "tick_002.mp3",
+    "duration": 0.05,
+    "role": "key-tick",
+    "description": "Very short key tick for text arriving letter by letter or line by line. Rotate 3+ takes, keep quiet."
+  },
+  "tick_004": {
+    "file": "tick_004.mp3",
+    "duration": 0.1,
+    "role": "key-tick",
+    "description": "Very short key tick for text arriving letter by letter or line by line. Rotate 3+ takes, keep quiet."
+  },
+  "toggle_001": {
+    "file": "toggle_001.mp3",
+    "duration": 0.17,
+    "role": "click",
+    "description": "Toggle switch tap: a step turning on or a check landing."
+  },
+  "toggle_002": {
+    "file": "toggle_002.mp3",
+    "duration": 0.17,
+    "role": "click",
+    "description": "Toggle switch tap: a step turning on or a check landing."
+  },
+  "toggle_003": {
+    "file": "toggle_003.mp3",
+    "duration": 0.17,
+    "role": "click",
+    "description": "Toggle switch tap: a step turning on or a check landing."
+  },
+  "toggle_004": {
+    "file": "toggle_004.mp3",
+    "duration": 0.1,
+    "role": "click",
+    "description": "Toggle switch tap: a step turning on or a check landing."
+  }
+}

@@ -1,0 +1,126 @@
+{
+  "$comment": "Example plan for a 30 s, 5-scene explainer. Copy, then set each section at to the real scene start times.",
+  "duration": 30,
+  "bpm": 96,
+  "scale": "D_MAJOR_B_MINOR",
+  "seed": 4242,
+  "preroll": 5,
+  "lead": 2.0,
+  "fade": 3.0,
+  "temperature": 1.1,
+  "top_k": 40,
+  "negative": "vocals, singing, heavy drums, distorted guitar, dubstep",
+  "sections": [
+    {
+      "at": 0,
+      "label": "Intro",
+      "density": 0.15,
+      "brightness": 0.3,
+      "guidance": 3.5,
+      "mute_drums": true,
+      "clip": "Ambient, warm synth pads, soft Rhodes piano, sparse and calm, no drums",
+      "prompts": [
+        {
+          "text": "Ambient, Synth Pads, minimal",
+          "weight": 1.0
+        },
+        {
+          "text": "Soft Rhodes Piano",
+          "weight": 0.4
+        }
+      ]
+    },
+    {
+      "at": 4,
+      "label": "Working",
+      "density": 0.35,
+      "brightness": 0.45,
+      "guidance": 3.2,
+      "mute_drums": false,
+      "clip": "a steady marimba and kalimba pulse joins, light precise percussion, focused and methodical",
+      "prompts": [
+        {
+          "text": "Ambient, Synth Pads, minimal",
+          "weight": 1.0
+        },
+        {
+          "text": "Marimba, Kalimba pulse, Chillout",
+          "weight": 0.9
+        },
+        {
+          "text": "Precision Bass, light TR-909 Drum Machine",
+          "weight": 0.5
+        }
+      ]
+    },
+    {
+      "at": 11,
+      "label": "Result",
+      "density": 0.65,
+      "brightness": 0.7,
+      "guidance": 3.0,
+      "mute_drums": false,
+      "clip": "the music opens up: bright, confident, triumphant synthpop with glockenspiel and vibraphone melody, fuller drums and bass",
+      "prompts": [
+        {
+          "text": "Euphoric, Triumphant, Synthpop, Bright",
+          "weight": 1.3
+        },
+        {
+          "text": "Glockenspiel, Vibraphone",
+          "weight": 0.6
+        },
+        {
+          "text": "Ambient, Synth Pads, minimal",
+          "weight": 0.6
+        },
+        {
+          "text": "Precision Bass, light TR-909 Drum Machine",
+          "weight": 0.6
+        }
+      ]
+    },
+    {
+      "at": 18,
+      "label": "Revision",
+      "density": 0.45,
+      "brightness": 0.55,
+      "guidance": 3.2,
+      "mute_drums": false,
+      "clip": "same melody continues with a lighter arrangement, relaxed and precise",
+      "prompts": [
+        {
+          "text": "Euphoric, Triumphant, Synthpop, Bright",
+          "weight": 0.8
+        },
+        {
+          "text": "Glockenspiel, Vibraphone",
+          "weight": 0.5
+        },
+        {
+          "text": "Relaxed, Warm Acoustic Guitar",
+          "weight": 0.6
+        }
+      ]
+    },
+    {
+      "at": 26,
+      "label": "Outro",
+      "density": 0.2,
+      "brightness": 0.4,
+      "guidance": 3.5,
+      "mute_drums": true,
+      "clip": "settles into a calm resolved piano chord, clean ending",
+      "prompts": [
+        {
+          "text": "Piano Ballad, Ethereal, resolved",
+          "weight": 1.0
+        },
+        {
+          "text": "Ambient, Synth Pads, minimal",
+          "weight": 0.3
+        }
+      ]
+    }
+  ]
+}

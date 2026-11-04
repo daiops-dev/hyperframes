@@ -38,6 +38,7 @@ For short launch videos, do not assume the beginning of the retrieved file is th
 ## Local generation (fallback) — Lyria
 
 > **DAIOps:** MusicGen is disabled in this copy (its weights are CC-BY-NC). If Lyria fails, the track is skipped: deliver the video without music and say so.
+> For a film with scenes, plan the bed per scene instead of one prompt: `scripts/lyria-sections.py --plan plan.json` (Lyria RealTime, cross-fades weighted prompts at each scene start) or `scripts/lyria-clip.py --plan plan.json` (Lyria 3 Clip, one 30 s take from timestamped sections). Both read the same plan; see `scripts/bgm-plan.example.json`.
 
 Spawned **detached** so voice work isn't blocked; `audio_meta.bgm_pending: true` and `bgm_pid` / `bgm_log` are set until it finishes. **Run `scripts/wait-bgm.mjs` before assembling** — it polls the output file / process / log, detects crashes, and writes `bgm_status.json` (`status: ready | failed | timeout | disabled`). A failed/absent track is simply omitted; it never blocks voice/SFX.
 

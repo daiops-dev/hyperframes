@@ -140,7 +140,14 @@ const PATCHES = [
     file: 'skills/media-use/audio/references/bgm.md',
     what: 'MusicGen disabled note',
     find: /^## Local generation \(fallback\) — Lyria → MusicGen$/m,
-    replace: '## Local generation (fallback) — Lyria\n\n> **DAIOps:** MusicGen is disabled in this copy (its weights are CC-BY-NC). If Lyria fails, the track is skipped: deliver the video without music and say so.',
+    replace: '## Local generation (fallback) — Lyria\n\n> **DAIOps:** MusicGen is disabled in this copy (its weights are CC-BY-NC). If Lyria fails, the track is skipped: deliver the video without music and say so.\n> For a film with scenes, plan the bed per scene instead of one prompt: `scripts/lyria-sections.py --plan plan.json` (Lyria RealTime, cross-fades weighted prompts at each scene start) or `scripts/lyria-clip.py --plan plan.json` (Lyria 3 Clip, one 30 s take from timestamped sections). Both read the same plan; see `scripts/bgm-plan.example.json`.',
+    expect: 1,
+  },
+  {
+    file: 'skills/media-use/audio/references/sfx.md',
+    what: 'point to the DAIOps UI sound set',
+    find: /^## Bundled library \(fallback\)$/m,
+    replace: '## UI sound set (DAIOps)\n\n`assets/sfx-ui/` holds 37 CC0 interface sounds (Kenney) with several takes per role: key-tick, click, pop, panel-in, panel-out. Use it before the bundled library for UI films, rotate takes, and never use chime, ping, notification or sparkle (`hyperframes/references/sound.md`). See `assets/sfx-ui/README.md`.\n\n## Bundled library (fallback)',
     expect: 1,
   },
   {
@@ -176,6 +183,30 @@ for (const p of PATCHES) {
   }
   fs.writeFileSync(file, text.replace(p.find, p.replace))
   note(p.file, p.what, n)
+}
+
+// 2c. Files DAIOps adds inside skills/ (daiops/extra/skills/** → skills/**). Never overwrite an upstream file:
+// an extra that collides with upstream fails the build, so a new upstream file cannot be silently replaced.
+const extraRoot = path.join(here, 'extra', 'skills')
+const extras = []
+if (fs.existsSync(extraRoot)) {
+  ;(function copy(dir) {
+    for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+      const src = path.join(dir, entry.name)
+      if (entry.isDirectory()) { copy(src); continue }
+      const rel = path.relative(extraRoot, src)
+      const dest = path.join(root, 'skills', rel)
+      // Same bytes already there = a rebuild over our own earlier copy. Different bytes = upstream owns that path.
+      if (fs.existsSync(dest)) {
+        if (!fs.readFileSync(dest).equals(fs.readFileSync(src))) problems0.push(`extra collides with upstream: skills/${rel}`)
+        else extras.push(`skills/${rel}`)
+        continue
+      }
+      fs.mkdirSync(path.dirname(dest), { recursive: true })
+      fs.copyFileSync(src, dest)
+      extras.push(`skills/${rel}`)
+    }
+  })(extraRoot)
 }
 
 // 3. Files DAIOps adds.
@@ -232,6 +263,9 @@ fs.writeFileSync(
     '- `daiops.yaml`: pinned tools DAIOps installs for employees hired from this talent',
     '- `NOTICE`, this file, and `README.md` (replaces the upstream README)',
     '- `daiops/`: the build script and templates',
+    ...(extras.length
+      ? [`- ${extras.length} files from \`daiops/extra/skills/\`: ${[...new Set(extras.map((e) => path.dirname(e)))].sort().map((d) => `\`${d}/\``).join(', ')}`]
+      : []),
     '',
     '## Modified',
     '',

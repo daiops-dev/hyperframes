@@ -11,6 +11,7 @@ Everything outside `skills/` except `LICENSE` and `CREDITS.md`: `CHANGES.md`, `N
 - `daiops.yaml`: pinned tools DAIOps installs for employees hired from this talent
 - `NOTICE`, this file, and `README.md` (replaces the upstream README)
 - `daiops/`: the build script and templates
+- 43 files from `daiops/extra/skills/`: `skills/media-use/audio/assets/sfx-ui/`, `skills/media-use/audio/scripts/`
 
 ## Modified
 
@@ -56,7 +57,7 @@ Totals: 441 `npx hyperframes` calls, 0 update prompts removed, rules block in 9 
 | `skills/media-use/audio/references/captions/transcript-handling.md` | npx hyperframes -> hyperframes (3) |
 | `skills/media-use/audio/references/remove-background.md` | npx hyperframes -> hyperframes (6) |
 | `skills/media-use/audio/references/requirements.md` | npx hyperframes -> hyperframes (3) |
-| `skills/media-use/audio/references/sfx.md` | npx hyperframes -> hyperframes (2) |
+| `skills/media-use/audio/references/sfx.md` | npx hyperframes -> hyperframes (2); point to the DAIOps UI sound set (1) |
 | `skills/media-use/audio/references/transcribe.md` | npx hyperframes -> hyperframes (7) |
 | `skills/media-use/audio/references/tts-to-captions.md` | npx hyperframes -> hyperframes (2) |
 | `skills/media-use/audio/references/tts.md` | npx hyperframes -> hyperframes (9); no sign-in preflight (1) |

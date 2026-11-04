@@ -35,6 +35,10 @@ A cue that matches nothing is **skipped** (recorded as an anomaly); SFX never bl
 
 One search per distinct effect name (20 results, `license=cc0,by`; each result's licence is checked again). The pick keeps Openverse's relevance order, prefers clips that fit a cue (15 s at most; past ~4 s ranks lower) and CC0 over CC BY when they are close. The file lands at `assets/sfx/<slug>.<ext>` and `duration_s` comes from the result. Name effects concretely (`glass shatter`, not `dramatic sound`); a vague query returns a poor match. Anonymous use allows 20 searches a minute and 200 a day: past that, the rest of the run uses the bundled library.
 
+## UI sound set (DAIOps)
+
+`assets/sfx-ui/` holds 37 CC0 interface sounds (Kenney) with several takes per role: key-tick, click, pop, panel-in, panel-out. Use it before the bundled library for UI films, rotate takes, and never use chime, ping, notification or sparkle (`hyperframes/references/sound.md`). See `assets/sfx-ui/README.md`.
+
 ## Bundled library (fallback)
 
 21 curated files in `assets/sfx/`, indexed by `manifest.json` — `{ file, duration, description }` per key (e.g. `whoosh`, `pop`, `click`, `chime`, `riser`, `impact-bass-1`, `glitch-1`, `typing`, …). A cue name resolves by **manifest key, file basename, or slug**, so `whoosh`, `whoosh.mp3`, or `"ui click"` (→ slug) all match. Matched files are copied into the project's `assets/sfx/`; `duration_s` comes from the manifest, so timing is known **offline** — e.g. `riser` is 10.03s, so trigger it at `climax − 10.03s`. The manifest's `description` field carries placement hints per effect; read `assets/sfx/manifest.json` for the full set and usage.
