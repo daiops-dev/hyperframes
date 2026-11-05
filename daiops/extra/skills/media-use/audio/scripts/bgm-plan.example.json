@@ -1,5 +1,5 @@
 {
-  "$comment": "Example plan for a 30 s, 5-scene explainer. Copy, then set each section at to the real scene start times.",
+  "$comment": "Example plan for a ~30 s, 5-beat explainer at 96 BPM (bar 2.5 s). Set duration to the film length and each at to the planned beat start; the scripts snap starts to bar lines and print them.",
   "duration": 30,
   "bpm": 96,
   "scale": "D_MAJOR_B_MINOR",
@@ -31,7 +31,7 @@
       ]
     },
     {
-      "at": 4,
+      "at": 5,
       "label": "Working",
       "density": 0.35,
       "brightness": 0.45,
@@ -54,7 +54,7 @@
       ]
     },
     {
-      "at": 11,
+      "at": 10,
       "label": "Result",
       "density": 0.65,
       "brightness": 0.7,
@@ -81,7 +81,7 @@
       ]
     },
     {
-      "at": 18,
+      "at": 17.5,
       "label": "Revision",
       "density": 0.45,
       "brightness": 0.55,
@@ -104,7 +104,7 @@
       ]
     },
     {
-      "at": 26,
+      "at": 25,
       "label": "Outro",
       "density": 0.2,
       "brightness": 0.4,
@@ -122,5 +122,7 @@
         }
       ]
     }
-  ]
+  ],
+  "tail": 3.0,
+  "snap_bars": true
 }

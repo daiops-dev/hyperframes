@@ -70,6 +70,22 @@ def blend(a: dict, b: dict, t: float) -> dict:
     }
 
 
+def bar_seconds(plan: dict) -> float:
+    return 4 * 60.0 / float(plan.get("bpm", 100))  # 4/4
+
+
+def snap_to_bars(plan: dict) -> None:
+    """Move each section start to the nearest bar line (unless "snap_bars": false). Prints every move."""
+    if plan.get("snap_bars", True) is False:
+        return
+    bar = bar_seconds(plan)
+    for s in plan["sections"]:
+        snapped = round(round(s["at"] / bar) * bar, 3)
+        if snapped != s["at"]:
+            print(f"  section {s.get('label', s['at'])}: {s['at']} s -> {snapped} s (bar {bar:.3f} s)")
+        s["at"] = snapped
+
+
 def state_at(plan: dict, t: float) -> dict:
     """Section state the stream should be steered to at output time t (preroll excluded)."""
     secs = plan["sections"]
@@ -97,7 +113,9 @@ async def run(plan: dict, out_path: Path) -> None:
     client = genai.Client(api_key=key, http_options={"api_version": "v1alpha"})
 
     plan["sections"] = sorted(plan["sections"], key=lambda s: s["at"])
-    duration = float(plan["duration"])
+    snap_to_bars(plan)
+    # generate `tail` extra seconds so the film can end on a bar and fade under the end card
+    duration = float(plan["duration"]) + float(plan.get("tail", 3.0))
     preroll = float(plan.get("preroll", 5.0))
     total = int((duration + preroll) * BYTES_PER_SEC)
     scale = getattr(types.Scale, plan.get("scale", ""), None) if plan.get("scale") else None
@@ -179,7 +197,8 @@ async def run(plan: dict, out_path: Path) -> None:
         wf.setsampwidth(SAMPLE_WIDTH)
         wf.setframerate(SAMPLE_RATE)
         wf.writeframes(audio)
-    print(f"BGM: {out_path} ({len(audio) / BYTES_PER_SEC:.2f}s, preroll {preroll:.1f}s dropped)")
+    print(f"BGM: {out_path} ({len(audio) / BYTES_PER_SEC:.2f}s incl. {float(plan.get('tail', 3.0)):.1f}s tail, preroll {preroll:.1f}s dropped)")
+    print("  section starts (use these as beat starts): " + ", ".join(f"{s.get('label', '?')} {s['at']}s" for s in plan["sections"]))
     for line in log:
         print("  " + line)
 

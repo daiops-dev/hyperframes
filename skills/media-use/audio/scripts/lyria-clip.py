@@ -25,10 +25,15 @@ def ts(sec: float) -> str:
 
 def build_prompt(plan: dict) -> str:
     secs = sorted(plan["sections"], key=lambda s: s["at"])
-    dur = float(plan["duration"])
+    bar = 4 * 60.0 / float(plan.get("bpm", 100))
+    if plan.get("snap_bars", True) is not False:
+        for s in secs:  # section changes on bar lines; a change mid-bar made Clip insert a 1.7 s gap (11/05)
+            s["at"] = round(round(s["at"] / bar) * bar, 3)
+    dur = min(30.0, float(plan["duration"]))  # Clip always returns 30 s
     head = plan.get("clip_style") or (
         f"Instrumental only, no vocals. Background score for a {int(dur)}-second product explainer video. "
-        f"{plan.get('bpm', 100)} BPM, steady tempo throughout."
+        f"{plan.get('bpm', 100)} BPM, steady tempo throughout. One continuous piece: every section flows into "
+        f"the next without any pause, break or silence."
     )
     lines = [head]
     for i, s in enumerate(secs):

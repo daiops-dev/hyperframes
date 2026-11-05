@@ -12,6 +12,7 @@
  */
 import fs from 'node:fs'
 import path from 'node:path'
+import { execFileSync } from 'node:child_process'
 
 const ref = process.argv[2]
 if (!ref || !/^v\d+\.\d+\.\d+$/.test(ref)) {
@@ -188,6 +189,14 @@ for (const p of PATCHES) {
 // 2c. Files DAIOps adds inside skills/ (daiops/extra/skills/** → skills/**). Never overwrite an upstream file:
 // an extra that collides with upstream fails the build, so a new upstream file cannot be silently replaced.
 const extraRoot = path.join(here, 'extra', 'skills')
+const upstreamHas = (p) => {
+  try {
+    execFileSync('git', ['cat-file', '-e', `${ref}:${p}`], { cwd: root, stdio: 'ignore' })
+    return true
+  } catch {
+    return false
+  }
+}
 const extras = []
 if (fs.existsSync(extraRoot)) {
   ;(function copy(dir) {
@@ -196,12 +205,9 @@ if (fs.existsSync(extraRoot)) {
       if (entry.isDirectory()) { copy(src); continue }
       const rel = path.relative(extraRoot, src)
       const dest = path.join(root, 'skills', rel)
-      // Same bytes already there = a rebuild over our own earlier copy. Different bytes = upstream owns that path.
-      if (fs.existsSync(dest)) {
-        if (!fs.readFileSync(dest).equals(fs.readFileSync(src))) problems0.push(`extra collides with upstream: skills/${rel}`)
-        else extras.push(`skills/${rel}`)
-        continue
-      }
+      // A path upstream ships at this tag is upstream's: never overwrite it. Anything else is ours to (re)write,
+      // including our own copy from an earlier build on this branch.
+      if (upstreamHas(`skills/${rel}`)) { problems0.push(`extra collides with upstream: skills/${rel}`); continue }
       fs.mkdirSync(path.dirname(dest), { recursive: true })
       fs.copyFileSync(src, dest)
       extras.push(`skills/${rel}`)
