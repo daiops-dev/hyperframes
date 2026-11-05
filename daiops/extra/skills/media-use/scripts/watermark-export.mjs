@@ -3,7 +3,7 @@
  * Render a HyperFrames project with a small watermark layered on top, without touching the scenes.
  * Added by DAIOps (see CHANGES.md). Use it for social exports; the master stays unmarked.
  *
- *   node watermark-export.mjs --project ./my-video --mark ./mark.svg --out ./renders/social.mp4 \
+ *   node watermark-export.mjs --project ./my-video (--mark ./mark.svg | --text "Brand") --out ./renders/social.mp4 \
  *     [--hide-at 25] [--corner tl|tr] [--height-pct 4.5] [--opacity 0.55] [--color white|black|original] \
  *     [--square] [--quality delivery]
  *
@@ -34,12 +34,15 @@ function args(argv) {
 
 const a = args(process.argv.slice(2))
 const fail = (m) => { console.error(`watermark-export: ${m}`); process.exit(2) }
-if (!a.project || !a.mark || !a.out) fail('usage: --project <dir> --mark <svg|png> --out <file.mp4> [options]')
+if (!a.project || (!a.mark && !a.text) || !a.out) fail('usage: --project <dir> (--mark <svg|png> | --text <word>) --out <file.mp4> [options]')
+if (a.mark && a.text) fail('use --mark or --text, not both')
 const project = path.resolve(a.project)
-const mark = path.resolve(a.mark)
+const mark = a.mark ? path.resolve(a.mark) : null
+const text = typeof a.text === 'string' ? a.text : null
 const out = path.resolve(a.out)
 if (!fs.existsSync(path.join(project, 'index.html'))) fail(`no index.html in ${project}`)
-if (!fs.existsSync(mark)) fail(`mark not found: ${mark}`)
+if (mark && !fs.existsSync(mark)) fail(`mark not found: ${mark}`)
+if (text !== null && !/^[\p{L}\p{N} .\-]{1,24}$/u.test(text)) fail('--text must be 1-24 letters, digits, spaces, dots or hyphens')
 
 const corner = a.corner === 'tr' ? 'tr' : 'tl'
 const heightPct = Number(a['height-pct'] ?? 4.5)
@@ -63,10 +66,14 @@ if (!(hideAt > 0 && hideAt <= duration)) fail(`--hide-at must be in (0, ${durati
 const size = Math.round((H * heightPct) / 100)
 const margin = Math.round(H * 0.04)
 const squareLeft = Math.max(0, Math.round((W - H) / 2))
-const left = corner === 'tl' ? squareLeft + margin : W - squareLeft - margin - size
+const inset = squareLeft + margin
+const side = corner === 'tl' ? `left:${inset}px` : `right:${inset}px`
 const filter =
   color === 'white' ? 'brightness(0) invert(1)' : color === 'black' ? 'brightness(0)' : 'none'
-const ext = path.extname(mark).toLowerCase() || '.svg'
+const ext = mark ? path.extname(mark).toLowerCase() || '.svg' : ''
+const ink = color === 'black' ? '#000' : '#fff'
+const font = String(a.font ?? 'Pretendard').replace(/[^\p{L}\p{N} \-]/gu, '')
+const weight = Number(a.weight ?? 700)
 
 const work = fs.mkdtempSync(path.join(os.tmpdir(), 'hf-watermark-'))
 try {
@@ -74,18 +81,28 @@ try {
     recursive: true,
     filter: (src) => !path.relative(project, src).split(path.sep).some((s) => ['renders', 'node_modules', '.git'].includes(s)),
   })
-  fs.mkdirSync(path.join(work, 'assets'), { recursive: true })
-  fs.copyFileSync(mark, path.join(work, 'assets', `__watermark${ext}`))
-  const overlay =
-    `\n<img id="__watermark" class="clip" src="assets/__watermark${ext}" alt="" ` +
-    `data-start="0" data-duration="${hideAt}" data-track-index="999" data-layout-allow-overlap ` +
-    `style="position:absolute;top:${margin}px;left:${left}px;height:${size}px;width:auto;` +
-    `opacity:${opacity};filter:${filter};z-index:2147483000;pointer-events:none" />`
+  const timing = `data-start="0" data-duration="${hideAt}" data-track-index="999" data-layout-allow-overlap`
+  let overlay
+  if (mark) {
+    fs.mkdirSync(path.join(work, 'assets'), { recursive: true })
+    fs.copyFileSync(mark, path.join(work, 'assets', `__watermark${ext}`))
+    overlay =
+      `\n<img id="__watermark" class="clip" src="assets/__watermark${ext}" alt="" ${timing} ` +
+      `style="position:absolute;top:${margin}px;${side};height:${size}px;width:auto;` +
+      `opacity:${opacity};filter:${filter};z-index:2147483000;pointer-events:none" />`
+  } else {
+    // Word mark: the line box is the mark height, so the cap height sits at about 70% of it
+    overlay =
+      `\n<div id="__watermark" class="clip" ${timing} ` +
+      `style="position:absolute;top:${margin}px;${side};height:${size}px;line-height:${size}px;` +
+      `font-family:'${font}',sans-serif;font-weight:${weight};font-size:${size}px;letter-spacing:-0.01em;` +
+      `color:${ink};opacity:${opacity};white-space:nowrap;z-index:2147483000;pointer-events:none">${text}</div>`
+  }
   fs.writeFileSync(path.join(work, 'index.html'), indexSrc.replace(rootOpen[0], rootOpen[0] + overlay))
 
   fs.mkdirSync(path.dirname(out), { recursive: true })
   execFileSync('hyperframes', ['render', work, '--output', out, '--quality', String(a.quality ?? 'delivery')], { stdio: 'inherit' })
-  console.log(`watermark-export: ${out} (mark ${size}px, ${corner}, opacity ${opacity}, hidden from ${hideAt}s)`)
+  console.log(`watermark-export: ${out} (${text ? `text "${text}"` : 'mark'} ${size}px, ${corner}, opacity ${opacity}, hidden from ${hideAt}s)`)
 
   if (a.square) {
     const sq = out.replace(/\.mp4$/i, '') + '-1x1.mp4'
