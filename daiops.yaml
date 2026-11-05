@@ -24,3 +24,8 @@ install:
     check: >-
       hyperframes doctor --json 2>/dev/null | node -e
       'const r=JSON.parse(require("fs").readFileSync(0,"utf8"));const c=(r.checks||[]).find(x=>x.name==="Chrome");process.exit(c&&c.ok?0:1)'
+  - id: lyria
+    # google-genai for the Lyria music scripts (media-use/audio/scripts/lyria-*.py). Installed here so the employee
+    # does not run pip itself (a package install needs an approval each time).
+    run: pip install --quiet google-genai==2.33.0
+    check: python3 -c "import google.genai" 2>/dev/null
