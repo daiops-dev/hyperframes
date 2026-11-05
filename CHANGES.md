@@ -11,7 +11,7 @@ Everything outside `skills/` except `LICENSE` and `CREDITS.md`: `CHANGES.md`, `N
 - `daiops.yaml`: pinned tools DAIOps installs for employees hired from this talent
 - `NOTICE`, this file, and `README.md` (replaces the upstream README)
 - `daiops/`: the build script and templates
-- 43 files from `daiops/extra/skills/`: `skills/media-use/audio/assets/sfx-ui/`, `skills/media-use/audio/scripts/`
+- 44 files from `daiops/extra/skills/`: `skills/media-use/audio/assets/sfx-ui/`, `skills/media-use/audio/scripts/`, `skills/media-use/scripts/`
 
 ## Modified
 
